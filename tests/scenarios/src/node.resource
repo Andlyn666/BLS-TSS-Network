@@ -3,7 +3,7 @@ Documentation       This resource file use to interact with nodes
 Library             Process
 Library             OperatingSystem
 Library             environment/node.py
-
+Library             environment/log.py
 Resource            common.resource
 
 *** Variables ***
@@ -146,4 +146,5 @@ Add Balance And Run Node
     ${address} =    Get Address By Index    ${node_index}
     Add ARPA    ${address}    100000
     ${proc} =    Start Node    ${node_index}
+    ${log} =    Get 
     RETURN    ${proc}
