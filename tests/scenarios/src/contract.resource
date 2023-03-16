@@ -42,6 +42,7 @@ Set Enviorment And Deploy Contract
     Create Node Config    ${PROXY_CONTRACT_ADDRESS}
 
 Build Proxy Contract
+    ${result} =    Run    cd contracts/;forge build -o out/
     ${address} =    Get Value From Env    PROXY_ADDRESS
     Set Global Variable    $PROXY_CONTRACT_ADDRESS    ${address}
     ${proxy_contract} =    Get Contract    contracts/${PROXY_OUTPUT}Proxy.sol/Proxy.json    ${address}

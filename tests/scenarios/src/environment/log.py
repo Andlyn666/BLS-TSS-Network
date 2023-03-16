@@ -32,16 +32,15 @@ def get_keyword_from_log(process, keyword):
     :param keyword: keyword to look for in the log
     :return: dictionary with the relevant information found for the keyword
     """
-    max_retry = 10
+    max_retry = 30
     for i in range(max_retry):
         log_info = get_log_info(iter(process.stdout.readline, b''), keyword)
 
         if log_info is not None:
-            return log_info 
+            return log_info
 
         time.sleep(1)
-
-    return None
+    return 'Can not find the keyword in log within limit time.'
 
 # pro = node.start_node(1)
 # print(get_keyword_from_log(pro, "node_register"))
