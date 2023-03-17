@@ -146,6 +146,6 @@ Add Balance And Run Node
     ${address} =    Get Address By Index    ${node_index}
     Add ARPA    ${address}    100000
     ${proc} =    Start Node    ${node_index}
-    ${register_result} =    Get Keyword From Log    ${proc}    Transaction successful(node_register)
+    ${register_result} =    Get Keyword From Log    ${proc}    Transaction successful(node_register)    200
     Should Not Be Empty    ${register_result}
     RETURN    ${proc}
