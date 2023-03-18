@@ -35,6 +35,7 @@ ${MODIFIRD_PARTIAL_PUB_KEY}              0x02
 Set Enviorment And Deploy Contract
     [Documentation]    Set enviorment and deploy proxy contract
     Setup Scenario Testing Environment
+    ${result} =    Run    cd contracts/;forge build -o out/
     Deploy Controller
     Build Proxy Contract
     Exec Script    ${PROXY_CONFIG_SCRIPT}
@@ -42,7 +43,6 @@ Set Enviorment And Deploy Contract
     Create Node Config    ${PROXY_CONTRACT_ADDRESS}
 
 Build Proxy Contract
-    ${result} =    Run    cd contracts/;forge build -o out/
     ${address} =    Get Value From Env    PROXY_ADDRESS
     Set Global Variable    $PROXY_CONTRACT_ADDRESS    ${address}
     ${proxy_contract} =    Get Contract    contracts/${PROXY_OUTPUT}Proxy.sol/Proxy.json    ${address}
