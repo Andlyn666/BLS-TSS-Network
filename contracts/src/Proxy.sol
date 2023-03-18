@@ -128,7 +128,6 @@ contract Proxy is Ownable {
             partialPublicKeyModified, disqualifiedNodesModified));
         require(success, "modified delegatecall reverted");
     }
-    event msgSender(address owner);
 
     function setControllerConfig(
         uint256 nodeStakingAmount,
@@ -139,8 +138,7 @@ contract Proxy is Ownable {
         uint256 idealNumberOfGroups,
         uint256 pendingBlockAfterQuit,
         uint256 dkgPostProcessReward
-    ) external payable{
-        emit msgSender(msg.sender);
+    ) external payable {
         _delegate(implementation());
     }
 
@@ -161,5 +159,9 @@ contract Proxy is Ownable {
 
     fallback() external payable {
         _delegate(implementation());
+    }
+
+    receive() external payable {
+       _delegate(implementation());
     }
 }
