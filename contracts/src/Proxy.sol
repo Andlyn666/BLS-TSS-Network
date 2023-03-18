@@ -139,7 +139,7 @@ contract Proxy is Ownable {
         uint256 idealNumberOfGroups,
         uint256 pendingBlockAfterQuit,
         uint256 dkgPostProcessReward
-    ) external{
+    ) external payable{
         emit msgSender(msg.sender);
         _delegate(implementation());
     }
@@ -155,7 +155,7 @@ contract Proxy is Ownable {
         uint256 rewardPerSignature,
         uint256 committerRewardPerSignature,
         Adapter.FeeConfig memory feeConfig
-    ) external {
+    ) external payable {
         _delegate(implementation());
     }
 
