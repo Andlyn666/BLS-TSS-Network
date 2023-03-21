@@ -39,6 +39,7 @@ Set Enviorment And Deploy Contract
     Deploy Controller
     Build Proxy Contract
     Exec Script    ${PROXY_CONFIG_SCRIPT}
+    config Proxy    ${PROXY_CONTRACT}
     Set ARPA Address
     Create Node Config    ${PROXY_CONTRACT_ADDRESS}
 

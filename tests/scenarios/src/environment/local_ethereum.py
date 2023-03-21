@@ -3,6 +3,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 from web3 import Web3
 
 def get_abi(file_name):
@@ -82,17 +83,17 @@ deploy_controller()
 
 
 
-# def config_proxy(proxy):
-#     w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
-#     load_dotenv("contracts/.env")
-#     node_staking_amount = os.environ.get("NODE_STAKING_AMOUNT")
-#     disqualified_node_penalty_amount = os.environ.get("DISQUALIFIED_NODE_PENALTY_AMOUNT")
-#     default_number_of_committers = os.environ.get("DEFAULT_NUMBER_OF_COMMITTERS")
-#     default_dkg_phase_duration = os.environ.get("DEFAULT_DKG_PHASE_DURATION")
-#     group_max_capacity = os.environ.get("GROUP_MAX_CAPACITY")
-#     ideal_number_of_groups = os.environ.get("IDEAL_NUMBER_OF_GROUPS")
-#     pending_block_after_quit = os.environ.get("PENDING_BLOCK_AFTER_QUIT")
-#     dkg_post_process_reward = os.environ.get("DKG_POST_PROCESS_REWARD")
+def config_proxy(proxy):
+    w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
+    load_dotenv("contracts/.env")
+    node_staking_amount = os.environ.get("NODE_STAKING_AMOUNT")
+    disqualified_node_penalty_amount = os.environ.get("DISQUALIFIED_NODE_PENALTY_AMOUNT")
+    default_number_of_committers = os.environ.get("DEFAULT_NUMBER_OF_COMMITTERS")
+    default_dkg_phase_duration = os.environ.get("DEFAULT_DKG_PHASE_DURATION")
+    group_max_capacity = os.environ.get("GROUP_MAX_CAPACITY")
+    ideal_number_of_groups = os.environ.get("IDEAL_NUMBER_OF_GROUPS")
+    pending_block_after_quit = os.environ.get("PENDING_BLOCK_AFTER_QUIT")
+    dkg_post_process_reward = os.environ.get("DKG_POST_PROCESS_REWARD")
 
 #     minimum_request_confirmations = os.environ.get("MINIMUM_REQUEST_CONFIRMATIONS")
 #     max_gas_limit = os.environ.get("MAX_GAS_LIMIT")
@@ -115,19 +116,18 @@ deploy_controller()
 #     reqs_for_tier5 = os.environ.get("REQS_FOR_TIER5")
 
 
-#     ret = proxy.functions.setControllerConfig(
-#         int(node_staking_amount, 10),
-#         int(disqualified_node_penalty_amount, 10),
-#         int(default_number_of_committers, 10),
-#         int(default_dkg_phase_duration, 10),
-#         int(group_max_capacity, 10),
-#         int(ideal_number_of_groups, 10),
-#         int(pending_block_after_quit, 10),
-#         int(dkg_post_process_reward, 10)
-#     ).transact()
-#     time.sleep(1)
-#     tx_receipt = w3.eth.getTransactionReceipt(ret)
-#     print('Config proxy controller config: ', tx_receipt)
+    ret = proxy.functions.setControllerConfig(
+        int(node_staking_amount, 10),
+        int(disqualified_node_penalty_amount, 10),
+        int(default_number_of_committers, 10),
+        int(default_dkg_phase_duration, 10),
+        int(group_max_capacity, 10),
+        int(ideal_number_of_groups, 10),
+        int(pending_block_after_quit, 10),
+        int(dkg_post_process_reward, 10)
+    ).transact()
+    time.sleep(1)
+    print(ret)
 
 #     fee_config = {
 #         'fulfillmentFlatFeeArpaPPMTier1': int(fulfillment_flat_fee_arpa_ppm_tier1, 10),
