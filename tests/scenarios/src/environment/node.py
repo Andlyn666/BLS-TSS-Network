@@ -105,6 +105,7 @@ def start_node(node_idx):
        "cargo run --bin node-client -- -m new-run -c "
        "{}/tests/scenarios/src/environment/node_config/config{}.yml"
       ).format(root_path, root_path, node_idx)
+    print(cmd)
     proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     return proc
 
