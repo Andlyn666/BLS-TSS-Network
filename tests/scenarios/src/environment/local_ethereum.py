@@ -52,7 +52,7 @@ def contract_function_transact(contract, function_name, *args):
 
 def exec_script(script_name):
     os.chdir("contracts")
-    cmd = "forge script script/" + script_name + " --fork-url http://localhost:8545 --broadcast"
+    cmd = "forge script script/" + script_name + " --fork-url http://localhost:8545 --broadcast --slow"
     os.system(cmd)
     os.chdir("..")
 
