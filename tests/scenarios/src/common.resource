@@ -65,6 +65,8 @@ Start Local Ethereum Chain
     ...    --balance    1000000
     ...    --block-time    1
     ...    --code-size-limit    90000
+    ...    --slow
+
     Process Should Be Running    ${anvil_process_handle}
     Set Global Variable    $LOCAL_ETHEREUM_CHAIN_PROCESS_HANDLE    ${anvil_process_handle}
     # Temporary solution here
