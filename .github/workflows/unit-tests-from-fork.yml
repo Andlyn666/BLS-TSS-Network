@@ -2,7 +2,7 @@ name: Node Unit Tests On PR
 
 on:
   push:
-    branches: [ main ]
+    branches: [ test-ci ]
 
 env:
   CARGO_TERM_COLOR: always
