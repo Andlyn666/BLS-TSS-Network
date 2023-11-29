@@ -1,7 +1,8 @@
 name: Node Unit Tests On PR
 
 on:
-  pull_request_target:
+  push:
+    branches: [ main ]
 
 env:
   CARGO_TERM_COLOR: always
