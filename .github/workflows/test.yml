@@ -1,4 +1,4 @@
-name: Build and Publish Docker
+name: test
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
   workflow_call:
 jobs:
   run-linters:
-    name: Run linters
+    name: test
     runs-on: ubuntu-latest
 
     steps:
@@ -27,8 +27,8 @@ jobs:
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
-      - name: run anvil &
-        run: anvil -p 8485
+      - name: run anvil
+        run: anvil -p 8485 &
       - name: kill by port
         run: lsof -ti :8485 | xargs kill -9
       - name: connect anvil
