@@ -27,7 +27,7 @@ jobs:
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
-      - name: run anvil
+      - name: run anvil &
         run: anvil -p 8485
       - name: kill by port
         run: lsof -ti :8485 | xargs kill -9
