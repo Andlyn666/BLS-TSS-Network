@@ -31,6 +31,8 @@ jobs:
         run: anvil -p 8485 &
       - name: kill by port
         run: lsof -ti :8485 | xargs kill -9
+      - name: kill by port
+        run: lsof -ti :8485 | xargs kill -9
       - name: connect anvil
         run: cast block-number
     
