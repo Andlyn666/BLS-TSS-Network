@@ -1,7 +1,9 @@
 name: Node Unit Tests On PR
 
 on:
-  pull_request:
+  push:
+    branches:
+      - test-taiko
 
 env:
   CARGO_TERM_COLOR: always

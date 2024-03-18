@@ -13,7 +13,7 @@ pub mod contract_interaction_tests {
 
     #[tokio::test]
     async fn test_estimate_eip1559_fees() -> Result<(), anyhow::Error> {
-        let provider = Provider::<Http>::try_from("https://eth.llamarpc.com")
+        let provider = Provider::<Http>::try_from("https://eth-mainnet.public.blastapi.io")
             .expect("could not instantiate HTTP Provider");
 
         let (max_fee, max_priority_fee) = provider
