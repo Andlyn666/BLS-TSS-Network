@@ -500,7 +500,8 @@ def deploy_contracts():
         capture_output=HIDE_OUTPUT,
         shell=True,
     )
-
+    
+    print_addresses()
     if not L2_ONLY:  # l2_only == False
         # forge script script/InitStakingLocalTest.s.sol:InitStakingLocalTestScript --fork-url http://localhost:8545 --broadcast -g 15
         print("Running Solidity Script: InitStakingLocalTestScript on L1...")
@@ -541,7 +542,7 @@ def deploy_contracts():
         relay_groups(l2_addresses["ControllerOracle"])
 
     # Print addresses to addresses.json
-    print_addresses()
+    
 
 
 def print_node_key_info():
@@ -975,6 +976,7 @@ def update_group(controller_address, controller_oracle_address, group_index):
             "OP_CONTROLLER_ORACLE_ADDRESS": controller_oracle_address,
             "L1_RPC": L1_RPC,
             "OP_RPC": L2_RPC,
+            "GROUP_INDEX": group_index,
         },
         cwd=CONTRACTS_DIR,
         shell=True,
@@ -982,7 +984,7 @@ def update_group(controller_address, controller_oracle_address, group_index):
 
 
 def main():
-    # # Main deployment script
+    # Main deployment script
     deploy_contracts()
     deploy_nodes()
     test_request_randomness()
@@ -998,9 +1000,9 @@ def main():
 
     ## Manually Update Group from L1 to L2
     # update_group(
-    #     "0x647c919280A1cE898cBf8BD72c8a912165B4f70a",  # controller_address
-    #     "0x6789dD361406E3DFC3a52BAfFD4C05958d25deDe",  # controller_oracle_address
-    #     0,  # group_index
+    #     "0xbd0620c34796a4d978aecad929a3ad3d6b86280b",  # controller_address
+    #     "0xBd57b868BB3374faA88722D2ee7bA3023C744e05",  # controller_oracle_address
+    #     '2',  # group_index
     # )
 
 
