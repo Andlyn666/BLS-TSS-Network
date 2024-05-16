@@ -99,8 +99,9 @@ contract ProxyTest is Test {
         _adapterImpl = new Adapter();
 
         vm.prank(_admin);
-        _adapter =
-        new ERC1967Proxy(address(_adapterImpl), abi.encodeWithSignature("initialize(address)", address(_controller)));
+        _adapter = new ERC1967Proxy(
+            address(_adapterImpl), abi.encodeWithSignature("initialize(address)", address(_controller))
+        );
 
         vm.prank(_admin);
         IControllerOwner(address(_controller)).setControllerConfig(

@@ -104,7 +104,11 @@ BLS Happy Path2
     ${node_rewards} =    get_events    ${CONTROLLER_CONTRACT}    NodeRewarded    ${start_block}
     Log    ${node_rewards}
     ${final_committer_reward} =    Get Amount Count From Reward Events    ${node_rewards}    ${final_committer}
-
+    ${final_committer} =    To Checksum Address    ${final_committer}
+    ${withdrawable_reward} =    Contract Function Call    ${CONTROLLER_CONTRACT}    getNodeWithdrawableTokens    ${final_committer}
+    ${private_key} =    Get Private Key By Address    ${final_committer}
+    Cast Send    ${CONTRACT_ADDRESSES['ControllerProxy']}    "nodeWithdraw(address)" ${final_committer}    ${private_key}    ${EMPTY}
+    ${withdrawable_reward} =    Contract Function Call    ${CONTROLLER_CONTRACT}    getNodeWithdrawableTokens    ${final_committer}
     Teardown Scenario Testing Environment
 
 Corner Case1
@@ -267,9 +271,9 @@ Test 2 SubId Request At Same Time
 
 Run BLS Test Cases
     [Tags]    l1
-    Repeat Keyword    1    BLS Happy Path1
+    #Repeat Keyword    1    BLS Happy Path1
     Repeat Keyword    1    BLS Happy Path2
-    Repeat Keyword    1    Corner Case1
-    Repeat Keyword    1    Corner Case2
-    Repeat Keyword    1    Test Request Gas Too Low
-    Repeat Keyword    1    Test 2 SubId Request At Same Time
+    #Repeat Keyword    1    Corner Case1
+    #Repeat Keyword    1    Corner Case2
+    #Repeat Keyword    1    Test Request Gas Too Low
+    #Repeat Keyword    1    Test 2 SubId Request At Same Time

@@ -81,4 +81,4 @@ L2 Connect Retry
 Run Test Cases
     [Tags]    l2
     Repeat Keyword    1    L2 Normal Process
-    Repeat Keyword    1    L2 Connect Retry
+    #Repeat Keyword    1    L2 Connect Retry

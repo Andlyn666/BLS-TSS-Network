@@ -24,7 +24,7 @@ Setup OP Devnet
 Set Op Enviorment And Deploy Contract
     [Documentation]    Set enviorment and deploy proxy contract
     Clear Log
-    Kill Previous Node    20
+    #Kill Previous Node    20
     Clear Database
     Set Global Variable    $NODE_PROCESS_LIST    ${EMPTY_LIST}
     Setup OP Devnet

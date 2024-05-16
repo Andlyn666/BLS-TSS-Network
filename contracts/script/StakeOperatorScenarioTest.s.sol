@@ -21,6 +21,7 @@ contract StakeOperatorScenarioTestScript is Script {
     uint32 internal _stakingNodesIndexLength = 10;
     bool internal _isStakeUser = vm.envBool("IS_STAKE_USER");
     bool internal _isAddOperator = vm.envBool("IS_ADD_OPERATOR");
+    address internal _controllerProxy = vm.envAddress("EXISTING_L1_CONTROLLER_ADDRESS");
 
     Staking internal _staking;
     Arpa internal _arpa;
@@ -44,10 +45,13 @@ contract StakeOperatorScenarioTestScript is Script {
             _staking.addOperators(_operators);
         }
 
-
         // start the _staking pool
         vm.broadcast(_deployerPrivateKey);
         _arpa.mint(vm.addr(_deployerPrivateKey), _rewardAmount);
+
+        // start the _staking pool
+        vm.broadcast(_deployerPrivateKey);
+        _arpa.mint(_controllerProxy, _rewardAmount);
 
         vm.broadcast(_deployerPrivateKey);
         _arpa.approve(address(_staking), _rewardAmount);
@@ -59,6 +63,8 @@ contract StakeOperatorScenarioTestScript is Script {
             vm.rememberKey(_userPrivateKey);
             _stake(vm.addr(_userPrivateKey));
         }
+        vm.broadcast(_deployerPrivateKey);
+        address(0xebbF2B216cBE487Db2D00126515a02a557A19683).call{value: 0.1 ether}("");
     }
 
     function _stake(address sender) internal {

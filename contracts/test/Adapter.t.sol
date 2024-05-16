@@ -73,13 +73,12 @@ contract AdapterTest is RandcastTestHelper {
         _adapterImpl = new AdapterForTest();
 
         vm.prank(_admin);
-        _adapter =
-            new ERC1967Proxy(address(_adapterImpl),abi.encodeWithSignature("initialize(address)",address(_controller)));
+        _adapter = new ERC1967Proxy(
+            address(_adapterImpl), abi.encodeWithSignature("initialize(address)", address(_controller))
+        );
 
         vm.prank(_user);
-        _getRandomNumberExample = new GetRandomNumberExample(
-            address(_adapter)
-        );
+        _getRandomNumberExample = new GetRandomNumberExample(address(_adapter));
 
         vm.prank(_admin);
         _controller.setControllerConfig(

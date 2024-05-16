@@ -1,0 +1,2297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.0.2 (Python 3.9.6 on darwin)" generated="20240516 11:11:16.275" rpa="false" schemaversion="3">
+<suite id="s1" name="Normal Process" source="/Users/andlyn/Desktop/Blockchain/BLS-TSS-Network-Fork/tests/scenarios/01__normal_process.robot">
+<test id="s1-t1" name="Run Normal Process" line="143">
+<kw name="Repeat Keyword" library="BuiltIn">
+<arg>1</arg>
+<arg>Normal Process</arg>
+<doc>Executes the specified keyword multiple times.</doc>
+<msg timestamp="20240516 11:11:17.145" level="INFO">Repeating keyword, round 1/1.</msg>
+<kw name="Normal Process">
+<doc>This test case is to test the normal node registration process.</doc>
+<kw name="Set Enviorment And Deploy Contract" library="contract">
+<doc>Set enviorment and deploy proxy contract</doc>
+<kw name="Clear Log" library="log">
+<doc>Clear the node log file</doc>
+<status status="PASS" starttime="20240516 11:11:17.146" endtime="20240516 11:11:17.164"/>
+</kw>
+<kw name="Kill Previous Node" library="node">
+<arg>20</arg>
+<doc>Kill all previous processes.</doc>
+<status status="PASS" starttime="20240516 11:11:17.164" endtime="20240516 11:11:19.205"/>
+</kw>
+<kw name="Clear Database" library="util">
+<doc>Clear sqlite database.</doc>
+<msg timestamp="20240516 11:11:19.209" level="INFO">Deleting file crates/arpa-node/data1.sqlite
+Deleting file crates/arpa-node/data3.sqlite
+Deleting file crates/arpa-node/data2.sqlite</msg>
+<status status="PASS" starttime="20240516 11:11:19.206" endtime="20240516 11:11:19.209"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>$NODE_PROCESS_LIST</arg>
+<arg>${EMPTY_LIST}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20240516 11:11:19.210" level="INFO">${NODE_PROCESS_LIST} = </msg>
+<status status="PASS" starttime="20240516 11:11:19.209" endtime="20240516 11:11:19.210"/>
+</kw>
+<kw name="Setup Chain Environment" library="common">
+<doc>Sets up the scenario testing encironment</doc>
+<kw name="Source Environment Variables" library="common">
+<doc>Source environment variables</doc>
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>source ${ENV_PATH}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:11:19.216" level="INFO">Running command 'source tests/scenarios/.env 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:11:19.223" level="INFO">${result} = </msg>
+<status status="PASS" starttime="20240516 11:11:19.211" endtime="20240516 11:11:19.224"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cp ${ENV_PATH} ${CONTRACT_PATH}.env</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:11:19.230" level="INFO">Running command 'cp tests/scenarios/.env contracts/.env 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:11:19.243" level="INFO">${result} = </msg>
+<status status="PASS" starttime="20240516 11:11:19.224" endtime="20240516 11:11:19.243"/>
+</kw>
+<status status="PASS" starttime="20240516 11:11:19.211" endtime="20240516 11:11:19.244"/>
+</kw>
+<status status="PASS" starttime="20240516 11:11:19.210" endtime="20240516 11:11:19.244"/>
+</kw>
+<kw name="Exec Script" library="contract">
+<var>${result}</var>
+<arg>ControllerScenarioTest.s.sol:ControllerScenarioTest</arg>
+<doc>Executes a script from the "contracts/script" directory.</doc>
+<msg timestamp="20240516 11:12:03.301" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:11:19.244" endtime="20240516 11:12:03.301"/>
+</kw>
+<kw name="Get Contract Address From File" library="contract">
+<var>${contract_addresses}</var>
+<arg>contracts/broadcast/ControllerScenarioTest.s.sol/31337/run-latest.json</arg>
+<doc>Get contract address from receipt file.
+file_name: the receipt file name.
+returns: dictionary mapping contract names to their addresses</doc>
+<msg timestamp="20240516 11:12:03.303" level="INFO">${contract_addresses} = {'BLS': '0x1D8D70AD07C8E7E442AD78E4AC0A16f958Eba7F0', 'ChainHelper': '0xA9e6Bfa2BF53dE88FEb19761D9b2eE2e821bF1Bf', 'GroupLib': '0x1E3b98102e19D3a164d239BdD190913C2F02E756', 'Arpa': '0x3fdc08D815cc4ED3...</msg>
+<status status="PASS" starttime="20240516 11:12:03.301" endtime="20240516 11:12:03.303"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>$CONTRACT_ADDRESSES</arg>
+<arg>${contract_addresses}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20240516 11:12:03.303" level="INFO">${CONTRACT_ADDRESSES} = {'BLS': '0x1D8D70AD07C8E7E442AD78E4AC0A16f958Eba7F0', 'ChainHelper': '0xA9e6Bfa2BF53dE88FEb19761D9b2eE2e821bF1Bf', 'GroupLib': '0x1E3b98102e19D3a164d239BdD190913C2F02E756', 'Arpa': '0x3fdc08D815cc4ED3...</msg>
+<status status="PASS" starttime="20240516 11:12:03.303" endtime="20240516 11:12:03.303"/>
+</kw>
+<kw name="Set Value To Env" library="util">
+<arg>ARPA_ADDRESS</arg>
+<arg>${contract_addresses['Arpa']}</arg>
+<doc>Set value to .env file.</doc>
+<msg timestamp="20240516 11:12:03.321" level="INFO">Set value to env:  ARPA_ADDRESS 0x3fdc08D815cc4ED3B7F69Ee246716f2C8bCD6b07</msg>
+<status status="PASS" starttime="20240516 11:12:03.304" endtime="20240516 11:12:03.321"/>
+</kw>
+<kw name="Set Value To Env" library="util">
+<arg>CONTROLLER_ADDRESS</arg>
+<arg>${contract_addresses['ControllerProxy']}</arg>
+<doc>Set value to .env file.</doc>
+<msg timestamp="20240516 11:12:03.343" level="INFO">Set value to env:  CONTROLLER_ADDRESS 0x70E5370b8981Abc6e14C91F4AcE823954EFC8eA3</msg>
+<status status="PASS" starttime="20240516 11:12:03.321" endtime="20240516 11:12:03.343"/>
+</kw>
+<kw name="Set Value To Env" library="util">
+<arg>STAKING_ADDRESS</arg>
+<arg>${contract_addresses['Staking']}</arg>
+<doc>Set value to .env file.</doc>
+<msg timestamp="20240516 11:12:03.364" level="INFO">Set value to env:  STAKING_ADDRESS 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352</msg>
+<status status="PASS" starttime="20240516 11:12:03.343" endtime="20240516 11:12:03.364"/>
+</kw>
+<kw name="Set Value To Env" library="util">
+<arg>ADAPTER_ADDRESS</arg>
+<arg>${contract_addresses['ERC1967Proxy']}</arg>
+<doc>Set value to .env file.</doc>
+<msg timestamp="20240516 11:12:03.384" level="INFO">Set value to env:  ADAPTER_ADDRESS 0x9c65f85425c619A6cB6D29fF8d57ef696323d188</msg>
+<status status="PASS" starttime="20240516 11:12:03.364" endtime="20240516 11:12:03.384"/>
+</kw>
+<kw name="Exec Script" library="contract">
+<var>${result}</var>
+<arg>StakeOperatorScenarioTest.s.sol:StakeOperatorScenarioTestScript</arg>
+<doc>Executes a script from the "contracts/script" directory.</doc>
+<msg timestamp="20240516 11:12:19.292" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:03.384" endtime="20240516 11:12:19.292"/>
+</kw>
+<kw name="Bound Contract ABI" library="contract">
+<doc>Bound contract ABI to handle contract function call</doc>
+<kw name="Set Variable" library="BuiltIn">
+<var>${proxy_address}</var>
+<arg>${CONTRACT_ADDRESSES['ControllerProxy']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:19.294" level="INFO">${proxy_address} = 0x70E5370b8981Abc6e14C91F4AcE823954EFC8eA3</msg>
+<status status="PASS" starttime="20240516 11:12:19.293" endtime="20240516 11:12:19.294"/>
+</kw>
+<kw name="To Checksum Address" library="contract">
+<var>${proxy_address}</var>
+<arg>${proxy_address}</arg>
+<doc>Web3.py only accepts checksum addresses
+To be removed, new version of web3.py will accept lower case addresses</doc>
+<msg timestamp="20240516 11:12:19.295" level="INFO">${proxy_address} = 0x70E5370b8981Abc6e14C91F4AcE823954EFC8eA3</msg>
+<status status="PASS" starttime="20240516 11:12:19.294" endtime="20240516 11:12:19.295"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>$PROXY_CONTRACT_ADDRESS</arg>
+<arg>${proxy_address}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20240516 11:12:19.296" level="INFO">${PROXY_CONTRACT_ADDRESS} = 0x70E5370b8981Abc6e14C91F4AcE823954EFC8eA3</msg>
+<status status="PASS" starttime="20240516 11:12:19.296" endtime="20240516 11:12:19.296"/>
+</kw>
+<kw name="Get Contract" library="contract">
+<var>${proxy_contract}</var>
+<arg>${PROXY_OUTPUT}ControllerProxy.sol/ControllerProxy.json</arg>
+<arg>${PROXY_CONTRACT_ADDRESS}</arg>
+<doc>Get the contract object.</doc>
+<msg timestamp="20240516 11:12:19.305" level="INFO">${proxy_contract} = &lt;web3._utils.datatypes.Contract object at 0x10c20b310&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:19.296" endtime="20240516 11:12:19.305"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>$PROXY_CONTRACT</arg>
+<arg>${proxy_contract}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20240516 11:12:19.306" level="INFO">${PROXY_CONTRACT} = &lt;web3._utils.datatypes.Contract object at 0x10c20b310&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:19.305" endtime="20240516 11:12:19.306"/>
+</kw>
+<kw name="Get Contract" library="contract">
+<var>${controller_contract}</var>
+<arg>${PROXY_OUTPUT}Controller.sol/Controller.json</arg>
+<arg>${PROXY_CONTRACT_ADDRESS}</arg>
+<doc>Get the contract object.</doc>
+<msg timestamp="20240516 11:12:19.316" level="INFO">${controller_contract} = &lt;web3._utils.datatypes.Contract object at 0x10c238340&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:19.306" endtime="20240516 11:12:19.316"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>$CONTROLLER_CONTRACT</arg>
+<arg>${controller_contract}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20240516 11:12:19.317" level="INFO">${CONTROLLER_CONTRACT} = &lt;web3._utils.datatypes.Contract object at 0x10c238340&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:19.316" endtime="20240516 11:12:19.317"/>
+</kw>
+<kw name="Get Value From Env" library="util">
+<var>${stake_address}</var>
+<arg>STAKING_ADDRESS</arg>
+<doc>Get value from .env file.</doc>
+<msg timestamp="20240516 11:12:19.330" level="INFO">${stake_address} = 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352</msg>
+<status status="PASS" starttime="20240516 11:12:19.317" endtime="20240516 11:12:19.330"/>
+</kw>
+<kw name="To Checksum Address" library="contract">
+<var>${stake_address}</var>
+<arg>${stake_address}</arg>
+<doc>Web3.py only accepts checksum addresses
+To be removed, new version of web3.py will accept lower case addresses</doc>
+<msg timestamp="20240516 11:12:19.331" level="INFO">${stake_address} = 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352</msg>
+<status status="PASS" starttime="20240516 11:12:19.330" endtime="20240516 11:12:19.331"/>
+</kw>
+<kw name="Get Contract" library="contract">
+<var>${stake_contract}</var>
+<arg>${PROXY_OUTPUT}Staking.sol/Staking.json</arg>
+<arg>${stake_address}</arg>
+<doc>Get the contract object.</doc>
+<msg timestamp="20240516 11:12:19.341" level="INFO">${stake_contract} = &lt;web3._utils.datatypes.Contract object at 0x10c26e400&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:19.331" endtime="20240516 11:12:19.341"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>$STAKE_CONTRACT</arg>
+<arg>${stake_contract}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20240516 11:12:19.341" level="INFO">${STAKE_CONTRACT} = &lt;web3._utils.datatypes.Contract object at 0x10c26e400&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:19.341" endtime="20240516 11:12:19.341"/>
+</kw>
+<kw name="Get Value From Env" library="util">
+<var>${adapter_address}</var>
+<arg>ADAPTER_ADDRESS</arg>
+<doc>Get value from .env file.</doc>
+<msg timestamp="20240516 11:12:19.353" level="INFO">${adapter_address} = 0x9c65f85425c619A6cB6D29fF8d57ef696323d188</msg>
+<status status="PASS" starttime="20240516 11:12:19.342" endtime="20240516 11:12:19.353"/>
+</kw>
+<kw name="To Checksum Address" library="contract">
+<var>${adapter_address}</var>
+<arg>${adapter_address}</arg>
+<doc>Web3.py only accepts checksum addresses
+To be removed, new version of web3.py will accept lower case addresses</doc>
+<msg timestamp="20240516 11:12:19.354" level="INFO">${adapter_address} = 0x9c65f85425c619A6cB6D29fF8d57ef696323d188</msg>
+<status status="PASS" starttime="20240516 11:12:19.354" endtime="20240516 11:12:19.355"/>
+</kw>
+<kw name="Get Contract" library="contract">
+<var>${adapter_contract}</var>
+<arg>${PROXY_OUTPUT}Adapter.sol/Adapter.json</arg>
+<arg>${adapter_address}</arg>
+<doc>Get the contract object.</doc>
+<msg timestamp="20240516 11:12:19.363" level="INFO">${adapter_contract} = &lt;web3._utils.datatypes.Contract object at 0x10c303400&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:19.355" endtime="20240516 11:12:19.364"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>$ADAPTER_CONTRACT</arg>
+<arg>${adapter_contract}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20240516 11:12:19.364" level="INFO">${ADAPTER_CONTRACT} = &lt;web3._utils.datatypes.Contract object at 0x10c303400&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:19.364" endtime="20240516 11:12:19.364"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:19.293" endtime="20240516 11:12:19.364"/>
+</kw>
+<kw name="Set ARPA Address" library="contract">
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>$ARPA_CONTRACT_ADDRESS</arg>
+<arg>${CONTRACT_ADDRESSES['Arpa']}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20240516 11:12:19.366" level="INFO">${ARPA_CONTRACT_ADDRESS} = 0x3fdc08D815cc4ED3B7F69Ee246716f2C8bCD6b07</msg>
+<status status="PASS" starttime="20240516 11:12:19.365" endtime="20240516 11:12:19.366"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:19.365" endtime="20240516 11:12:19.366"/>
+</kw>
+<kw name="Parse Node" library="common">
+<doc>Parse node</doc>
+<kw name="Parse Chain Result To Account List" library="node">
+<var>${result}</var>
+<doc>Parse the result of the chain command to a list of Account objects.</doc>
+<msg timestamp="20240516 11:12:19.367" level="INFO">${result} = [&lt;node.Account object at 0x10c3412b0&gt;, &lt;node.Account object at 0x10c341a00&gt;, &lt;node.Account object at 0x10c341be0&gt;, &lt;node.Account object at 0x10c341bb0&gt;, &lt;node.Account object at 0x10c341c40&gt;, &lt;node.Acc...</msg>
+<status status="PASS" starttime="20240516 11:12:19.366" endtime="20240516 11:12:19.367"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>$NODE_ACCOUNT_LIST</arg>
+<arg>${result}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20240516 11:12:19.368" level="INFO">${NODE_ACCOUNT_LIST} = [&lt;node.Account object at 0x10c3412b0&gt;, &lt;node.Account object at 0x10c341a00&gt;, &lt;node.Account object at 0x10c341be0&gt;, &lt;node.Account object at 0x10c341bb0&gt;, &lt;node.Account object at 0x10c341c40&gt;, &lt;node.Acc...</msg>
+<status status="PASS" starttime="20240516 11:12:19.368" endtime="20240516 11:12:19.368"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:19.366" endtime="20240516 11:12:19.368"/>
+</kw>
+<kw name="Create Node Config" library="node">
+<var>${result}</var>
+<arg>${CONTRACT_ADDRESSES['ControllerProxy']}</arg>
+<arg>${CONTRACT_ADDRESSES['ERC1967Proxy']}</arg>
+<arg>${CONTRACT_ADDRESSES['ControllerRelayer']}</arg>
+<arg>31337</arg>
+<arg>[]</arg>
+<doc>Create the node config files.</doc>
+<msg timestamp="20240516 11:12:19.372" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:19.368" endtime="20240516 11:12:19.372"/>
+</kw>
+<kw name="Clear Database" library="util">
+<doc>Clear sqlite database.</doc>
+<status status="PASS" starttime="20240516 11:12:19.372" endtime="20240516 11:12:19.373"/>
+</kw>
+<status status="PASS" starttime="20240516 11:11:17.146" endtime="20240516 11:12:19.373"/>
+</kw>
+<kw name="Stake And Run Node" library="node">
+<var>${node1}</var>
+<arg>1</arg>
+<kw name="Get Address By Index" library="node">
+<var>${address}</var>
+<arg>${node_index}</arg>
+<return>
+<value>${NODE_ACCOUNT_LIST[${node_index} - 1].address}</value>
+<status status="PASS" starttime="20240516 11:12:19.374" endtime="20240516 11:12:19.374"/>
+</return>
+<msg timestamp="20240516 11:12:19.374" level="INFO">${address} = 0xbcd4042de499d14e55001ccbb24a551f3b954096</msg>
+<status status="PASS" starttime="20240516 11:12:19.373" endtime="20240516 11:12:19.374"/>
+</kw>
+<kw name="Get Value From Env" library="util">
+<var>${amount}</var>
+<arg>OPERATOR_STAKE_AMOUNT</arg>
+<doc>Get value from .env file.</doc>
+<msg timestamp="20240516 11:12:19.386" level="INFO">${amount} = 50000000000000000000000</msg>
+<status status="PASS" starttime="20240516 11:12:19.375" endtime="20240516 11:12:19.386"/>
+</kw>
+<kw name="Add ARPA" library="node">
+<var>${result}</var>
+<arg>${address}</arg>
+<arg>${amount}</arg>
+<doc>Test Add ARPA</doc>
+<kw name="Get Value From Env" library="util">
+<var>${key}</var>
+<arg>ADMIN_PRIVATE_KEY</arg>
+<doc>Get value from .env file.</doc>
+<msg timestamp="20240516 11:12:19.399" level="INFO">${key} = 0xAC0974BEC39A17E36BA4A6B4D238FF944BACB478CBED5EFCAE784D7BF4F2FF80</msg>
+<status status="PASS" starttime="20240516 11:12:19.387" endtime="20240516 11:12:19.399"/>
+</kw>
+<kw name="Cast Send" library="common">
+<var>${result}</var>
+<arg>${ARPA_CONTRACT_ADDRESS}</arg>
+<arg>"mint(address to, uint256 amount)" ${address} ${amount}</arg>
+<arg>${key}</arg>
+<arg>${EMPTY}</arg>
+<doc>Package Cast Send</doc>
+<kw name="Get Tip" library="common">
+<var>${tip}</var>
+<arg>${rpc_url}</arg>
+<doc>Get current tip</doc>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>0</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:19.400" level="INFO">${tip} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:19.400" endtime="20240516 11:12:19.400"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:19.408" level="INFO">Running command 'cast gas-price 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:19.517" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:19.401" endtime="20240516 11:12:19.517"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:19.519" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:19.518" endtime="20240516 11:12:19.519"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:19.524" level="INFO">Running command 'cast base-fee 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:19.572" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:19.519" endtime="20240516 11:12:19.572"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:19.573" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:19.573" endtime="20240516 11:12:19.573"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:19.575" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:19.574" endtime="20240516 11:12:19.575"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:19.401" endtime="20240516 11:12:19.575"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:19.575" endtime="20240516 11:12:19.575"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:19.575" endtime="20240516 11:12:19.575"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:19.576" endtime="20240516 11:12:19.576"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:19.576" endtime="20240516 11:12:19.576"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:19.576" endtime="20240516 11:12:19.576"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:19.575" endtime="20240516 11:12:19.576"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:19.401" endtime="20240516 11:12:19.576"/>
+</if>
+<return>
+<value>${tip}</value>
+<status status="PASS" starttime="20240516 11:12:19.576" endtime="20240516 11:12:19.577"/>
+</return>
+<msg timestamp="20240516 11:12:19.577" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:19.400" endtime="20240516 11:12:19.577"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${tip}</var>
+<arg>${tip * 6 / 5}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:19.578" level="INFO">${tip} = 1200000000</msg>
+<status status="PASS" starttime="20240516 11:12:19.577" endtime="20240516 11:12:19.578"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:19.584" level="INFO">Running command 'cast send 0x3fdc08D815cc4ED3B7F69Ee246716f2C8bCD6b07 "mint(address to, uint256 amount)" 0xbcd4042de499d14e55001ccbb24a551f3b954096 50000000000000000000000 --private-key=0xAC0974BEC39A17E36BA4A6B4D238FF944BACB478CBED5EFCAE784D7BF4F2FF80 --priority-gas-price=1200000000 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:20.297" level="INFO">${result} = 
+blockHash               0xcc9f715d7c7becb234bc307ae8259c9b4aafcb0c2460a784d755f6b05e20879e
+blockNumber             143945
+contractAddress         
+cumulativeGasUsed       51172
+effectiveGasPrice     ...</msg>
+<status status="PASS" starttime="20240516 11:12:19.579" endtime="20240516 11:12:20.297"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:19.578" endtime="20240516 11:12:20.298"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --rpc-url=${rpc_url} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:20.299" endtime="20240516 11:12:20.299"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:20.298" endtime="20240516 11:12:20.300"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:19.578" endtime="20240516 11:12:20.300"/>
+</if>
+<kw name="Log" library="BuiltIn">
+<arg>${result}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20240516 11:12:20.301" level="INFO">
+blockHash               0xcc9f715d7c7becb234bc307ae8259c9b4aafcb0c2460a784d755f6b05e20879e
+blockNumber             143945
+contractAddress         
+cumulativeGasUsed       51172
+effectiveGasPrice       1200000000
+from                    0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+gasUsed                 51172
+logs                    [{"address":"0x3fdc08d815cc4ed3b7f69ee246716f2c8bcd6b07","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x0000000000000000000000000000000000000000000000000000000000000000","0x000000000000000000000000bcd4042de499d14e55001ccbb24a551f3b954096"],"data":"0x000000000000000000000000000000000000000000000a968163f0a57b400000","blockHash":"0xcc9f715d7c7becb234bc307ae8259c9b4aafcb0c2460a784d755f6b05e20879e","blockNumber":"0x23249","transactionHash":"0xd169dd5bfa4d82503430c3ba54d8f1edfbb4be67974102d32fc3a99c173fd159","transactionIndex":"0x0","logIndex":"0x0","removed":false}]
+logsBloom               0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000020000000000000000000800000000000000000000000010000000000000000000000000000000000000000100000000000000000000020000000020000000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000020000000000000020000000000080000000000000000080000000000000000000000000000000000000
+root                    
+status                  1
+transactionHash         0xd169dd5bfa4d82503430c3ba54d8f1edfbb4be67974102d32fc3a99c173fd159
+transactionIndex        0
+type                    2
+to                      0x3fdc08D815cc4ED3B7F69Ee246716f2C8bCD6b07
+depositNonce             null</msg>
+<status status="PASS" starttime="20240516 11:12:20.300" endtime="20240516 11:12:20.301"/>
+</kw>
+<msg timestamp="20240516 11:12:20.301" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:19.399" endtime="20240516 11:12:20.301"/>
+</kw>
+<return>
+<value>${result}</value>
+<status status="PASS" starttime="20240516 11:12:20.302" endtime="20240516 11:12:20.302"/>
+</return>
+<msg timestamp="20240516 11:12:20.303" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:19.387" endtime="20240516 11:12:20.303"/>
+</kw>
+<kw name="Approve ARPA" library="node">
+<var>${result}</var>
+<arg>${node_index}</arg>
+<arg>${amount}</arg>
+<doc>Test Approve</doc>
+<kw name="Get Value From Env" library="util">
+<var>${stake_contract_address}</var>
+<arg>STAKING_ADDRESS</arg>
+<doc>Get value from .env file.</doc>
+<msg timestamp="20240516 11:12:20.320" level="INFO">${stake_contract_address} = 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352</msg>
+<status status="PASS" starttime="20240516 11:12:20.304" endtime="20240516 11:12:20.320"/>
+</kw>
+<kw name="Get Private Key By Index" library="common">
+<var>${key}</var>
+<arg>${node_index}</arg>
+<return>
+<value>${NODE_ACCOUNT_LIST[${node_index} - 1].key}</value>
+<status status="PASS" starttime="20240516 11:12:20.321" endtime="20240516 11:12:20.321"/>
+</return>
+<msg timestamp="20240516 11:12:20.322" level="INFO">${key} = 0xf214f2b2cd398c806f84e317254e0f0b801d0643303237d97a22a48e01628897</msg>
+<status status="PASS" starttime="20240516 11:12:20.320" endtime="20240516 11:12:20.322"/>
+</kw>
+<kw name="Cast Send" library="common">
+<var>${result}</var>
+<arg>${ARPA_CONTRACT_ADDRESS}</arg>
+<arg>"approve(address spender, uint256 amount)" ${stake_contract_address} ${amount}</arg>
+<arg>${key}</arg>
+<arg>${EMPTY}</arg>
+<doc>Package Cast Send</doc>
+<kw name="Get Tip" library="common">
+<var>${tip}</var>
+<arg>${rpc_url}</arg>
+<doc>Get current tip</doc>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>0</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:20.324" level="INFO">${tip} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:20.323" endtime="20240516 11:12:20.324"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:20.331" level="INFO">Running command 'cast gas-price 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:20.381" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:20.325" endtime="20240516 11:12:20.381"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:20.383" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:20.382" endtime="20240516 11:12:20.383"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:20.390" level="INFO">Running command 'cast base-fee 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:20.436" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:20.383" endtime="20240516 11:12:20.436"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:20.437" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:20.436" endtime="20240516 11:12:20.437"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:20.438" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:20.437" endtime="20240516 11:12:20.438"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:20.324" endtime="20240516 11:12:20.439"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:20.439" endtime="20240516 11:12:20.439"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:20.439" endtime="20240516 11:12:20.439"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:20.439" endtime="20240516 11:12:20.440"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:20.440" endtime="20240516 11:12:20.440"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:20.440" endtime="20240516 11:12:20.440"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:20.439" endtime="20240516 11:12:20.440"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:20.324" endtime="20240516 11:12:20.440"/>
+</if>
+<return>
+<value>${tip}</value>
+<status status="PASS" starttime="20240516 11:12:20.440" endtime="20240516 11:12:20.440"/>
+</return>
+<msg timestamp="20240516 11:12:20.441" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:20.323" endtime="20240516 11:12:20.441"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${tip}</var>
+<arg>${tip * 6 / 5}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:20.442" level="INFO">${tip} = 1200000000</msg>
+<status status="PASS" starttime="20240516 11:12:20.441" endtime="20240516 11:12:20.442"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:20.448" level="INFO">Running command 'cast send 0x3fdc08D815cc4ED3B7F69Ee246716f2C8bCD6b07 "approve(address spender, uint256 amount)" 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352 50000000000000000000000 --private-key=0xf214f2b2cd398c806f84e317254e0f0b801d0643303237d97a22a48e01628897 --priority-gas-price=1200000000 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:21.344" level="INFO">${result} = 
+blockHash               0x2264dd12d82653e6d768e6ad7c90791f735d1d866d02b30581b747c8a9dc5129
+blockNumber             143946
+contractAddress         
+cumulativeGasUsed       46307
+effectiveGasPrice     ...</msg>
+<status status="PASS" starttime="20240516 11:12:20.442" endtime="20240516 11:12:21.344"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:20.442" endtime="20240516 11:12:21.344"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --rpc-url=${rpc_url} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:21.345" endtime="20240516 11:12:21.345"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:21.345" endtime="20240516 11:12:21.345"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:20.442" endtime="20240516 11:12:21.345"/>
+</if>
+<kw name="Log" library="BuiltIn">
+<arg>${result}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20240516 11:12:21.346" level="INFO">
+blockHash               0x2264dd12d82653e6d768e6ad7c90791f735d1d866d02b30581b747c8a9dc5129
+blockNumber             143946
+contractAddress         
+cumulativeGasUsed       46307
+effectiveGasPrice       1200000000
+from                    0xBcd4042DE499D14e55001CcbB24a551F3b954096
+gasUsed                 46307
+logs                    [{"address":"0x3fdc08d815cc4ed3b7f69ee246716f2c8bcd6b07","topics":["0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925","0x000000000000000000000000bcd4042de499d14e55001ccbb24a551f3b954096","0x000000000000000000000000286b8decd5ed79c962b2d8f4346cd97ff0e2c352"],"data":"0x000000000000000000000000000000000000000000000a968163f0a57b400000","blockHash":"0x2264dd12d82653e6d768e6ad7c90791f735d1d866d02b30581b747c8a9dc5129","blockNumber":"0x2324a","transactionHash":"0xbbc9222f9422276ebd882465f2c425aed7c1da24de63875ea79df2cb917162dd","transactionIndex":"0x0","logIndex":"0x0","removed":false}]
+logsBloom               0x00000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000100000000000000000000020000000020020000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000020000000000000000000010000080000000000000000080000000000000000000000000000000000000
+root                    
+status                  1
+transactionHash         0xbbc9222f9422276ebd882465f2c425aed7c1da24de63875ea79df2cb917162dd
+transactionIndex        0
+type                    2
+to                      0x3fdc08D815cc4ED3B7F69Ee246716f2C8bCD6b07
+depositNonce             null</msg>
+<status status="PASS" starttime="20240516 11:12:21.346" endtime="20240516 11:12:21.346"/>
+</kw>
+<msg timestamp="20240516 11:12:21.346" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:20.322" endtime="20240516 11:12:21.346"/>
+</kw>
+<return>
+<value>${result}</value>
+<status status="PASS" starttime="20240516 11:12:21.347" endtime="20240516 11:12:21.347"/>
+</return>
+<msg timestamp="20240516 11:12:21.347" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:20.303" endtime="20240516 11:12:21.347"/>
+</kw>
+<kw name="Stake ARPA" library="node">
+<var>${result}</var>
+<arg>${node_index}</arg>
+<arg>${amount}</arg>
+<doc>Test Stake</doc>
+<kw name="Get Private Key By Index" library="common">
+<var>${key}</var>
+<arg>${node_index}</arg>
+<return>
+<value>${NODE_ACCOUNT_LIST[${node_index} - 1].key}</value>
+<status status="PASS" starttime="20240516 11:12:21.348" endtime="20240516 11:12:21.348"/>
+</return>
+<msg timestamp="20240516 11:12:21.349" level="INFO">${key} = 0xf214f2b2cd398c806f84e317254e0f0b801d0643303237d97a22a48e01628897</msg>
+<status status="PASS" starttime="20240516 11:12:21.348" endtime="20240516 11:12:21.349"/>
+</kw>
+<kw name="Get Value From Env" library="util">
+<var>${stake_contract_address}</var>
+<arg>STAKING_ADDRESS</arg>
+<doc>Get value from .env file.</doc>
+<msg timestamp="20240516 11:12:21.360" level="INFO">${stake_contract_address} = 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352</msg>
+<status status="PASS" starttime="20240516 11:12:21.349" endtime="20240516 11:12:21.360"/>
+</kw>
+<kw name="Cast Send" library="common">
+<var>${result}</var>
+<arg>${stake_contract_address}</arg>
+<arg>"stake(uint256 amount)" ${amount}</arg>
+<arg>${key}</arg>
+<arg>${EMPTY}</arg>
+<doc>Package Cast Send</doc>
+<kw name="Get Tip" library="common">
+<var>${tip}</var>
+<arg>${rpc_url}</arg>
+<doc>Get current tip</doc>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>0</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:21.362" level="INFO">${tip} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:21.362" endtime="20240516 11:12:21.362"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:21.368" level="INFO">Running command 'cast gas-price 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:21.416" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:21.363" endtime="20240516 11:12:21.416"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:21.417" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:21.417" endtime="20240516 11:12:21.417"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:21.423" level="INFO">Running command 'cast base-fee 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:21.467" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:21.417" endtime="20240516 11:12:21.467"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:21.469" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:21.468" endtime="20240516 11:12:21.469"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:21.470" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:21.469" endtime="20240516 11:12:21.470"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:21.363" endtime="20240516 11:12:21.470"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:21.470" endtime="20240516 11:12:21.470"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:21.471" endtime="20240516 11:12:21.471"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:21.471" endtime="20240516 11:12:21.471"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:21.471" endtime="20240516 11:12:21.471"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:21.472" endtime="20240516 11:12:21.472"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:21.470" endtime="20240516 11:12:21.472"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:21.362" endtime="20240516 11:12:21.472"/>
+</if>
+<return>
+<value>${tip}</value>
+<status status="PASS" starttime="20240516 11:12:21.472" endtime="20240516 11:12:21.472"/>
+</return>
+<msg timestamp="20240516 11:12:21.472" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:21.362" endtime="20240516 11:12:21.473"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${tip}</var>
+<arg>${tip * 6 / 5}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:21.473" level="INFO">${tip} = 1200000000</msg>
+<status status="PASS" starttime="20240516 11:12:21.473" endtime="20240516 11:12:21.473"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:21.480" level="INFO">Running command 'cast send 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352 "stake(uint256 amount)" 50000000000000000000000 --private-key=0xf214f2b2cd398c806f84e317254e0f0b801d0643303237d97a22a48e01628897 --priority-gas-price=1200000000 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:22.292" level="INFO">${result} = 
+blockHash               0x77905528ce59a90e7eab5e2918cf60900ad58c05ee4e4fa82ef80e9d70087b87
+blockNumber             143947
+contractAddress         
+cumulativeGasUsed       97150
+effectiveGasPrice     ...</msg>
+<status status="PASS" starttime="20240516 11:12:21.474" endtime="20240516 11:12:22.292"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:21.474" endtime="20240516 11:12:22.293"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --rpc-url=${rpc_url} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:22.294" endtime="20240516 11:12:22.294"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:22.293" endtime="20240516 11:12:22.295"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:21.474" endtime="20240516 11:12:22.295"/>
+</if>
+<kw name="Log" library="BuiltIn">
+<arg>${result}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20240516 11:12:22.295" level="INFO">
+blockHash               0x77905528ce59a90e7eab5e2918cf60900ad58c05ee4e4fa82ef80e9d70087b87
+blockNumber             143947
+contractAddress         
+cumulativeGasUsed       97150
+effectiveGasPrice       1200000000
+from                    0xBcd4042DE499D14e55001CcbB24a551F3b954096
+gasUsed                 97150
+logs                    [{"address":"0x286b8decd5ed79c962b2d8f4346cd97ff0e2c352","topics":["0x1449c6dd7851abc30abf37f57715f492010519147cc2652fbc38202c18a6ee90"],"data":"0x000000000000000000000000bcd4042de499d14e55001ccbb24a551f3b954096000000000000000000000000000000000000000000000a968163f0a57b400000000000000000000000000000000000000000000000000a968163f0a57b400000","blockHash":"0x77905528ce59a90e7eab5e2918cf60900ad58c05ee4e4fa82ef80e9d70087b87","blockNumber":"0x2324b","transactionHash":"0xbb3199e53389cfa48f3ff36b4caef995622f60776b8ec2f4f14cae85bdcd8f4e","transactionIndex":"0x0","logIndex":"0x0","removed":false},{"address":"0x3fdc08d815cc4ed3b7f69ee246716f2c8bcd6b07","topics":["0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925","0x000000000000000000000000bcd4042de499d14e55001ccbb24a551f3b954096","0x000000000000000000000000286b8decd5ed79c962b2d8f4346cd97ff0e2c352"],"data":"0x0000000000000000000000000000000000000000000000000000000000000000","blockHash":"0x77905528ce59a90e7eab5e2918cf60900ad58c05ee4e4fa82ef80e9d70087b87","blockNumber":"0x2324b","transactionHash":"0xbb3199e53389cfa48f3ff36b4caef995622f60776b8ec2f4f14cae85bdcd8f4e","transactionIndex":"0x0","logIndex":"0x1","removed":false},{"address":"0x3fdc08d815cc4ed3b7f69ee246716f2c8bcd6b07","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x000000000000000000000000bcd4042de499d14e55001ccbb24a551f3b954096","0x000000000000000000000000286b8decd5ed79c962b2d8f4346cd97ff0e2c352"],"data":"0x000000000000000000000000000000000000000000000a968163f0a57b400000","blockHash":"0x77905528ce59a90e7eab5e2918cf60900ad58c05ee4e4fa82ef80e9d70087b87","blockNumber":"0x2324b","transactionHash":"0xbb3199e53389cfa48f3ff36b4caef995622f60776b8ec2f4f14cae85bdcd8f4e","transactionIndex":"0x0","logIndex":"0x2","removed":false}]
+logsBloom               0x00000000000000000000000000000000000000000000000000100000800200000000000000000000000000000000000000000000000000000000000000200000000000000000000000000008000000000000000000002000000000000000000400000000000000000000000000000000000000000000004000000010000000000000100000000000000000000000000100000000000000000000020000000020020000000000000000000000000000000000100000000000000000000000040000000002000000000000000000000000000000000000020000000000000000000010000080000000000000000080000000000000000000000000000000000000
+root                    
+status                  1
+transactionHash         0xbb3199e53389cfa48f3ff36b4caef995622f60776b8ec2f4f14cae85bdcd8f4e
+transactionIndex        0
+type                    2
+to                      0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352
+depositNonce             null</msg>
+<status status="PASS" starttime="20240516 11:12:22.295" endtime="20240516 11:12:22.296"/>
+</kw>
+<msg timestamp="20240516 11:12:22.296" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:21.361" endtime="20240516 11:12:22.296"/>
+</kw>
+<return>
+<value>${result}</value>
+<status status="PASS" starttime="20240516 11:12:22.296" endtime="20240516 11:12:22.297"/>
+</return>
+<msg timestamp="20240516 11:12:22.297" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:21.347" endtime="20240516 11:12:22.297"/>
+</kw>
+<kw name="Start Node" library="node">
+<var>${proc}</var>
+<arg>${node_index}</arg>
+<doc>Start a node.
+node_idx: index of the node.</doc>
+<msg timestamp="20240516 11:12:22.307" level="INFO">${proc} = &lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:22.297" endtime="20240516 11:12:22.308"/>
+</kw>
+<kw name="Add Process To List" library="node">
+<var>${list}</var>
+<arg>${proc}</arg>
+<arg>${NODE_PROCESS_LIST}</arg>
+<doc>Add a process to the list of processes.
+proc: process of the node.
+node_list: list of processes.</doc>
+<msg timestamp="20240516 11:12:22.310" level="INFO">${list} = [&lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;]</msg>
+<status status="PASS" starttime="20240516 11:12:22.309" endtime="20240516 11:12:22.310"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>$NODE_PROCESS_LIST</arg>
+<arg>${list}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20240516 11:12:22.311" level="INFO">${NODE_PROCESS_LIST} = [&lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;]</msg>
+<status status="PASS" starttime="20240516 11:12:22.310" endtime="20240516 11:12:22.311"/>
+</kw>
+<return>
+<value>${proc}</value>
+<status status="PASS" starttime="20240516 11:12:22.311" endtime="20240516 11:12:22.312"/>
+</return>
+<msg timestamp="20240516 11:12:22.312" level="INFO">${node1} = &lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:19.373" endtime="20240516 11:12:22.312"/>
+</kw>
+<kw name="Stake And Run Node" library="node">
+<var>${node2}</var>
+<arg>2</arg>
+<kw name="Get Address By Index" library="node">
+<var>${address}</var>
+<arg>${node_index}</arg>
+<return>
+<value>${NODE_ACCOUNT_LIST[${node_index} - 1].address}</value>
+<status status="PASS" starttime="20240516 11:12:22.314" endtime="20240516 11:12:22.314"/>
+</return>
+<msg timestamp="20240516 11:12:22.315" level="INFO">${address} = 0x71be63f3384f5fb98995898a86b02fb2426c5788</msg>
+<status status="PASS" starttime="20240516 11:12:22.313" endtime="20240516 11:12:22.315"/>
+</kw>
+<kw name="Get Value From Env" library="util">
+<var>${amount}</var>
+<arg>OPERATOR_STAKE_AMOUNT</arg>
+<doc>Get value from .env file.</doc>
+<msg timestamp="20240516 11:12:22.329" level="INFO">${amount} = 50000000000000000000000</msg>
+<status status="PASS" starttime="20240516 11:12:22.315" endtime="20240516 11:12:22.329"/>
+</kw>
+<kw name="Add ARPA" library="node">
+<var>${result}</var>
+<arg>${address}</arg>
+<arg>${amount}</arg>
+<doc>Test Add ARPA</doc>
+<kw name="Get Value From Env" library="util">
+<var>${key}</var>
+<arg>ADMIN_PRIVATE_KEY</arg>
+<doc>Get value from .env file.</doc>
+<msg timestamp="20240516 11:12:22.342" level="INFO">${key} = 0xAC0974BEC39A17E36BA4A6B4D238FF944BACB478CBED5EFCAE784D7BF4F2FF80</msg>
+<status status="PASS" starttime="20240516 11:12:22.330" endtime="20240516 11:12:22.342"/>
+</kw>
+<kw name="Cast Send" library="common">
+<var>${result}</var>
+<arg>${ARPA_CONTRACT_ADDRESS}</arg>
+<arg>"mint(address to, uint256 amount)" ${address} ${amount}</arg>
+<arg>${key}</arg>
+<arg>${EMPTY}</arg>
+<doc>Package Cast Send</doc>
+<kw name="Get Tip" library="common">
+<var>${tip}</var>
+<arg>${rpc_url}</arg>
+<doc>Get current tip</doc>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>0</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:22.344" level="INFO">${tip} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:22.344" endtime="20240516 11:12:22.344"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:22.351" level="INFO">Running command 'cast gas-price 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:22.399" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:22.345" endtime="20240516 11:12:22.399"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:22.400" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:22.399" endtime="20240516 11:12:22.400"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:22.406" level="INFO">Running command 'cast base-fee 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:22.451" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:22.400" endtime="20240516 11:12:22.451"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:22.452" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:22.451" endtime="20240516 11:12:22.452"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:22.453" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:22.452" endtime="20240516 11:12:22.453"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:22.344" endtime="20240516 11:12:22.454"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:22.454" endtime="20240516 11:12:22.454"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:22.455" endtime="20240516 11:12:22.455"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:22.455" endtime="20240516 11:12:22.455"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:22.455" endtime="20240516 11:12:22.455"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:22.456" endtime="20240516 11:12:22.456"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:22.454" endtime="20240516 11:12:22.456"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:22.344" endtime="20240516 11:12:22.456"/>
+</if>
+<return>
+<value>${tip}</value>
+<status status="PASS" starttime="20240516 11:12:22.456" endtime="20240516 11:12:22.456"/>
+</return>
+<msg timestamp="20240516 11:12:22.456" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:22.343" endtime="20240516 11:12:22.456"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${tip}</var>
+<arg>${tip * 6 / 5}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:22.457" level="INFO">${tip} = 1200000000</msg>
+<status status="PASS" starttime="20240516 11:12:22.457" endtime="20240516 11:12:22.457"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:22.464" level="INFO">Running command 'cast send 0x3fdc08D815cc4ED3B7F69Ee246716f2C8bCD6b07 "mint(address to, uint256 amount)" 0x71be63f3384f5fb98995898a86b02fb2426c5788 50000000000000000000000 --private-key=0xAC0974BEC39A17E36BA4A6B4D238FF944BACB478CBED5EFCAE784D7BF4F2FF80 --priority-gas-price=1200000000 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:23.353" level="INFO">${result} = 
+blockHash               0x8f7c68440cca6944667f11c80107361788b5a3e580a8fce77348286f90788c4b
+blockNumber             143948
+contractAddress         
+cumulativeGasUsed       51184
+effectiveGasPrice     ...</msg>
+<status status="PASS" starttime="20240516 11:12:22.458" endtime="20240516 11:12:23.353"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:22.458" endtime="20240516 11:12:23.353"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --rpc-url=${rpc_url} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:23.354" endtime="20240516 11:12:23.354"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:23.353" endtime="20240516 11:12:23.354"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:22.458" endtime="20240516 11:12:23.354"/>
+</if>
+<kw name="Log" library="BuiltIn">
+<arg>${result}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20240516 11:12:23.355" level="INFO">
+blockHash               0x8f7c68440cca6944667f11c80107361788b5a3e580a8fce77348286f90788c4b
+blockNumber             143948
+contractAddress         
+cumulativeGasUsed       51184
+effectiveGasPrice       1200000000
+from                    0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+gasUsed                 51184
+logs                    [{"address":"0x3fdc08d815cc4ed3b7f69ee246716f2c8bcd6b07","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x0000000000000000000000000000000000000000000000000000000000000000","0x00000000000000000000000071be63f3384f5fb98995898a86b02fb2426c5788"],"data":"0x000000000000000000000000000000000000000000000a968163f0a57b400000","blockHash":"0x8f7c68440cca6944667f11c80107361788b5a3e580a8fce77348286f90788c4b","blockNumber":"0x2324c","transactionHash":"0xa60e471d685a3101c7a35243475de8acf32ba33a916e38cc90609520ba629ea3","transactionIndex":"0x0","logIndex":"0x0","removed":false}]
+logsBloom               0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000000000000000008000000000000000000000000000000000000000000000000020000000000000000000800000000000000000000000010000000000000000000000000200000000000000100000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000020004000000000020000000000000000000000000000000000000000000000000000000000000000000
+root                    
+status                  1
+transactionHash         0xa60e471d685a3101c7a35243475de8acf32ba33a916e38cc90609520ba629ea3
+transactionIndex        0
+type                    2
+to                      0x3fdc08D815cc4ED3B7F69Ee246716f2C8bCD6b07
+depositNonce             null</msg>
+<status status="PASS" starttime="20240516 11:12:23.354" endtime="20240516 11:12:23.355"/>
+</kw>
+<msg timestamp="20240516 11:12:23.356" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:22.342" endtime="20240516 11:12:23.356"/>
+</kw>
+<return>
+<value>${result}</value>
+<status status="PASS" starttime="20240516 11:12:23.356" endtime="20240516 11:12:23.356"/>
+</return>
+<msg timestamp="20240516 11:12:23.356" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:22.329" endtime="20240516 11:12:23.357"/>
+</kw>
+<kw name="Approve ARPA" library="node">
+<var>${result}</var>
+<arg>${node_index}</arg>
+<arg>${amount}</arg>
+<doc>Test Approve</doc>
+<kw name="Get Value From Env" library="util">
+<var>${stake_contract_address}</var>
+<arg>STAKING_ADDRESS</arg>
+<doc>Get value from .env file.</doc>
+<msg timestamp="20240516 11:12:23.369" level="INFO">${stake_contract_address} = 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352</msg>
+<status status="PASS" starttime="20240516 11:12:23.357" endtime="20240516 11:12:23.369"/>
+</kw>
+<kw name="Get Private Key By Index" library="common">
+<var>${key}</var>
+<arg>${node_index}</arg>
+<return>
+<value>${NODE_ACCOUNT_LIST[${node_index} - 1].key}</value>
+<status status="PASS" starttime="20240516 11:12:23.370" endtime="20240516 11:12:23.370"/>
+</return>
+<msg timestamp="20240516 11:12:23.371" level="INFO">${key} = 0x701b615bbdfb9de65240bc28bd21bbc0d996645a3dd57e7b12bc2bdf6f192c82</msg>
+<status status="PASS" starttime="20240516 11:12:23.369" endtime="20240516 11:12:23.371"/>
+</kw>
+<kw name="Cast Send" library="common">
+<var>${result}</var>
+<arg>${ARPA_CONTRACT_ADDRESS}</arg>
+<arg>"approve(address spender, uint256 amount)" ${stake_contract_address} ${amount}</arg>
+<arg>${key}</arg>
+<arg>${EMPTY}</arg>
+<doc>Package Cast Send</doc>
+<kw name="Get Tip" library="common">
+<var>${tip}</var>
+<arg>${rpc_url}</arg>
+<doc>Get current tip</doc>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>0</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:23.373" level="INFO">${tip} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:23.373" endtime="20240516 11:12:23.373"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:23.380" level="INFO">Running command 'cast gas-price 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:23.426" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:23.374" endtime="20240516 11:12:23.426"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:23.427" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:23.426" endtime="20240516 11:12:23.427"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:23.433" level="INFO">Running command 'cast base-fee 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:23.478" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:23.427" endtime="20240516 11:12:23.478"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:23.479" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:23.478" endtime="20240516 11:12:23.479"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:23.480" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:23.479" endtime="20240516 11:12:23.480"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:23.373" endtime="20240516 11:12:23.480"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:23.481" endtime="20240516 11:12:23.481"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:23.481" endtime="20240516 11:12:23.481"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:23.482" endtime="20240516 11:12:23.482"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:23.482" endtime="20240516 11:12:23.482"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:23.482" endtime="20240516 11:12:23.482"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:23.480" endtime="20240516 11:12:23.482"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:23.373" endtime="20240516 11:12:23.482"/>
+</if>
+<return>
+<value>${tip}</value>
+<status status="PASS" starttime="20240516 11:12:23.482" endtime="20240516 11:12:23.483"/>
+</return>
+<msg timestamp="20240516 11:12:23.483" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:23.372" endtime="20240516 11:12:23.483"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${tip}</var>
+<arg>${tip * 6 / 5}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:23.484" level="INFO">${tip} = 1200000000</msg>
+<status status="PASS" starttime="20240516 11:12:23.483" endtime="20240516 11:12:23.484"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:23.491" level="INFO">Running command 'cast send 0x3fdc08D815cc4ED3B7F69Ee246716f2C8bCD6b07 "approve(address spender, uint256 amount)" 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352 50000000000000000000000 --private-key=0x701b615bbdfb9de65240bc28bd21bbc0d996645a3dd57e7b12bc2bdf6f192c82 --priority-gas-price=1200000000 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:24.280" level="INFO">${result} = 
+blockHash               0xfeb59133df110e634adc4e8d035a6d54fbea2e99e92c0b8f9ba84b6b295cf685
+blockNumber             143949
+contractAddress         
+cumulativeGasUsed       46307
+effectiveGasPrice     ...</msg>
+<status status="PASS" starttime="20240516 11:12:23.485" endtime="20240516 11:12:24.280"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:23.484" endtime="20240516 11:12:24.281"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --rpc-url=${rpc_url} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:24.282" endtime="20240516 11:12:24.282"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:24.281" endtime="20240516 11:12:24.282"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:23.484" endtime="20240516 11:12:24.282"/>
+</if>
+<kw name="Log" library="BuiltIn">
+<arg>${result}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20240516 11:12:24.283" level="INFO">
+blockHash               0xfeb59133df110e634adc4e8d035a6d54fbea2e99e92c0b8f9ba84b6b295cf685
+blockNumber             143949
+contractAddress         
+cumulativeGasUsed       46307
+effectiveGasPrice       1200000000
+from                    0x71bE63f3384f5fb98995898A86B02Fb2426c5788
+gasUsed                 46307
+logs                    [{"address":"0x3fdc08d815cc4ed3b7f69ee246716f2c8bcd6b07","topics":["0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925","0x00000000000000000000000071be63f3384f5fb98995898a86b02fb2426c5788","0x000000000000000000000000286b8decd5ed79c962b2d8f4346cd97ff0e2c352"],"data":"0x000000000000000000000000000000000000000000000a968163f0a57b400000","blockHash":"0xfeb59133df110e634adc4e8d035a6d54fbea2e99e92c0b8f9ba84b6b295cf685","blockNumber":"0x2324d","transactionHash":"0xf04c965ca8f9f3d9e934fc213cec771d301a0db6d3576aaa08e1930bb7f94abd","transactionIndex":"0x0","logIndex":"0x0","removed":false}]
+logsBloom               0x00000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000200000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000200000000000000100000000000000000000020000000000020000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000020004000000000000000010000000000000000000000000000000000000000000000000000000000000
+root                    
+status                  1
+transactionHash         0xf04c965ca8f9f3d9e934fc213cec771d301a0db6d3576aaa08e1930bb7f94abd
+transactionIndex        0
+type                    2
+to                      0x3fdc08D815cc4ED3B7F69Ee246716f2C8bCD6b07
+depositNonce             null</msg>
+<status status="PASS" starttime="20240516 11:12:24.283" endtime="20240516 11:12:24.283"/>
+</kw>
+<msg timestamp="20240516 11:12:24.284" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:23.371" endtime="20240516 11:12:24.284"/>
+</kw>
+<return>
+<value>${result}</value>
+<status status="PASS" starttime="20240516 11:12:24.284" endtime="20240516 11:12:24.285"/>
+</return>
+<msg timestamp="20240516 11:12:24.285" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:23.357" endtime="20240516 11:12:24.285"/>
+</kw>
+<kw name="Stake ARPA" library="node">
+<var>${result}</var>
+<arg>${node_index}</arg>
+<arg>${amount}</arg>
+<doc>Test Stake</doc>
+<kw name="Get Private Key By Index" library="common">
+<var>${key}</var>
+<arg>${node_index}</arg>
+<return>
+<value>${NODE_ACCOUNT_LIST[${node_index} - 1].key}</value>
+<status status="PASS" starttime="20240516 11:12:24.287" endtime="20240516 11:12:24.287"/>
+</return>
+<msg timestamp="20240516 11:12:24.287" level="INFO">${key} = 0x701b615bbdfb9de65240bc28bd21bbc0d996645a3dd57e7b12bc2bdf6f192c82</msg>
+<status status="PASS" starttime="20240516 11:12:24.286" endtime="20240516 11:12:24.287"/>
+</kw>
+<kw name="Get Value From Env" library="util">
+<var>${stake_contract_address}</var>
+<arg>STAKING_ADDRESS</arg>
+<doc>Get value from .env file.</doc>
+<msg timestamp="20240516 11:12:24.299" level="INFO">${stake_contract_address} = 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352</msg>
+<status status="PASS" starttime="20240516 11:12:24.288" endtime="20240516 11:12:24.299"/>
+</kw>
+<kw name="Cast Send" library="common">
+<var>${result}</var>
+<arg>${stake_contract_address}</arg>
+<arg>"stake(uint256 amount)" ${amount}</arg>
+<arg>${key}</arg>
+<arg>${EMPTY}</arg>
+<doc>Package Cast Send</doc>
+<kw name="Get Tip" library="common">
+<var>${tip}</var>
+<arg>${rpc_url}</arg>
+<doc>Get current tip</doc>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>0</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:24.301" level="INFO">${tip} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:24.301" endtime="20240516 11:12:24.301"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:24.309" level="INFO">Running command 'cast gas-price 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:24.361" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:24.302" endtime="20240516 11:12:24.361"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:24.362" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:24.362" endtime="20240516 11:12:24.363"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:24.369" level="INFO">Running command 'cast base-fee 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:24.414" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:24.363" endtime="20240516 11:12:24.414"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:24.416" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:24.415" endtime="20240516 11:12:24.416"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:24.417" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:24.416" endtime="20240516 11:12:24.417"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:24.301" endtime="20240516 11:12:24.417"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:24.418" endtime="20240516 11:12:24.418"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:24.418" endtime="20240516 11:12:24.418"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:24.418" endtime="20240516 11:12:24.418"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:24.419" endtime="20240516 11:12:24.419"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:24.419" endtime="20240516 11:12:24.419"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:24.418" endtime="20240516 11:12:24.419"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:24.301" endtime="20240516 11:12:24.419"/>
+</if>
+<return>
+<value>${tip}</value>
+<status status="PASS" starttime="20240516 11:12:24.419" endtime="20240516 11:12:24.419"/>
+</return>
+<msg timestamp="20240516 11:12:24.419" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:24.300" endtime="20240516 11:12:24.420"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${tip}</var>
+<arg>${tip * 6 / 5}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:24.420" level="INFO">${tip} = 1200000000</msg>
+<status status="PASS" starttime="20240516 11:12:24.420" endtime="20240516 11:12:24.420"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:24.427" level="INFO">Running command 'cast send 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352 "stake(uint256 amount)" 50000000000000000000000 --private-key=0x701b615bbdfb9de65240bc28bd21bbc0d996645a3dd57e7b12bc2bdf6f192c82 --priority-gas-price=1200000000 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:25.322" level="INFO">${result} = 
+blockHash               0xa229670581b3155e8150a01cab86c3f415e268bfe36fa124dcfaf7284b230bbd
+blockNumber             143950
+contractAddress         
+cumulativeGasUsed       62720
+effectiveGasPrice     ...</msg>
+<status status="PASS" starttime="20240516 11:12:24.421" endtime="20240516 11:12:25.322"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:24.421" endtime="20240516 11:12:25.322"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --rpc-url=${rpc_url} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:25.323" endtime="20240516 11:12:25.323"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:25.323" endtime="20240516 11:12:25.323"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:24.421" endtime="20240516 11:12:25.323"/>
+</if>
+<kw name="Log" library="BuiltIn">
+<arg>${result}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20240516 11:12:25.324" level="INFO">
+blockHash               0xa229670581b3155e8150a01cab86c3f415e268bfe36fa124dcfaf7284b230bbd
+blockNumber             143950
+contractAddress         
+cumulativeGasUsed       62720
+effectiveGasPrice       1200000000
+from                    0x71bE63f3384f5fb98995898A86B02Fb2426c5788
+gasUsed                 62720
+logs                    [{"address":"0x286b8decd5ed79c962b2d8f4346cd97ff0e2c352","topics":["0x1449c6dd7851abc30abf37f57715f492010519147cc2652fbc38202c18a6ee90"],"data":"0x00000000000000000000000071be63f3384f5fb98995898a86b02fb2426c5788000000000000000000000000000000000000000000000a968163f0a57b400000000000000000000000000000000000000000000000000a968163f0a57b400000","blockHash":"0xa229670581b3155e8150a01cab86c3f415e268bfe36fa124dcfaf7284b230bbd","blockNumber":"0x2324e","transactionHash":"0x41bbde23124fdea10337a1a23e5c21a1b26270589f642ede252020444ef8d9e2","transactionIndex":"0x0","logIndex":"0x0","removed":false},{"address":"0x3fdc08d815cc4ed3b7f69ee246716f2c8bcd6b07","topics":["0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925","0x00000000000000000000000071be63f3384f5fb98995898a86b02fb2426c5788","0x000000000000000000000000286b8decd5ed79c962b2d8f4346cd97ff0e2c352"],"data":"0x0000000000000000000000000000000000000000000000000000000000000000","blockHash":"0xa229670581b3155e8150a01cab86c3f415e268bfe36fa124dcfaf7284b230bbd","blockNumber":"0x2324e","transactionHash":"0x41bbde23124fdea10337a1a23e5c21a1b26270589f642ede252020444ef8d9e2","transactionIndex":"0x0","logIndex":"0x1","removed":false},{"address":"0x3fdc08d815cc4ed3b7f69ee246716f2c8bcd6b07","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x00000000000000000000000071be63f3384f5fb98995898a86b02fb2426c5788","0x000000000000000000000000286b8decd5ed79c962b2d8f4346cd97ff0e2c352"],"data":"0x000000000000000000000000000000000000000000000a968163f0a57b400000","blockHash":"0xa229670581b3155e8150a01cab86c3f415e268bfe36fa124dcfaf7284b230bbd","blockNumber":"0x2324e","transactionHash":"0x41bbde23124fdea10337a1a23e5c21a1b26270589f642ede252020444ef8d9e2","transactionIndex":"0x0","logIndex":"0x2","removed":false}]
+logsBloom               0x00000000000000000000000000000000000000000000000000100000800200000000000000000000000000000000000000000000000000000000000000200000000800000000000000000008000000000000000000002000000000000000000400000000000000000000000000000000000000000000004000000010000000000000100000000000200000000000000100000000000000000000020000000000020000000000000000000000000000000000100000000000000000000000040000000002000000000000000000000000000000000000020004000000000000000010000000000000000000000000000000000000000000000000000000000000
+root                    
+status                  1
+transactionHash         0x41bbde23124fdea10337a1a23e5c21a1b26270589f642ede252020444ef8d9e2
+transactionIndex        0
+type                    2
+to                      0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352
+depositNonce             null</msg>
+<status status="PASS" starttime="20240516 11:12:25.323" endtime="20240516 11:12:25.324"/>
+</kw>
+<msg timestamp="20240516 11:12:25.324" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:24.299" endtime="20240516 11:12:25.324"/>
+</kw>
+<return>
+<value>${result}</value>
+<status status="PASS" starttime="20240516 11:12:25.324" endtime="20240516 11:12:25.324"/>
+</return>
+<msg timestamp="20240516 11:12:25.325" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:24.285" endtime="20240516 11:12:25.325"/>
+</kw>
+<kw name="Start Node" library="node">
+<var>${proc}</var>
+<arg>${node_index}</arg>
+<doc>Start a node.
+node_idx: index of the node.</doc>
+<msg timestamp="20240516 11:12:25.332" level="INFO">${proc} = &lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:25.325" endtime="20240516 11:12:25.333"/>
+</kw>
+<kw name="Add Process To List" library="node">
+<var>${list}</var>
+<arg>${proc}</arg>
+<arg>${NODE_PROCESS_LIST}</arg>
+<doc>Add a process to the list of processes.
+proc: process of the node.
+node_list: list of processes.</doc>
+<msg timestamp="20240516 11:12:25.333" level="INFO">${list} = [&lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;, &lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;]</msg>
+<status status="PASS" starttime="20240516 11:12:25.333" endtime="20240516 11:12:25.334"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>$NODE_PROCESS_LIST</arg>
+<arg>${list}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20240516 11:12:25.334" level="INFO">${NODE_PROCESS_LIST} = [&lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;, &lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;]</msg>
+<status status="PASS" starttime="20240516 11:12:25.334" endtime="20240516 11:12:25.334"/>
+</kw>
+<return>
+<value>${proc}</value>
+<status status="PASS" starttime="20240516 11:12:25.334" endtime="20240516 11:12:25.334"/>
+</return>
+<msg timestamp="20240516 11:12:25.335" level="INFO">${node2} = &lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:22.312" endtime="20240516 11:12:25.335"/>
+</kw>
+<kw name="Stake And Run Node" library="node">
+<var>${node3}</var>
+<arg>3</arg>
+<kw name="Get Address By Index" library="node">
+<var>${address}</var>
+<arg>${node_index}</arg>
+<return>
+<value>${NODE_ACCOUNT_LIST[${node_index} - 1].address}</value>
+<status status="PASS" starttime="20240516 11:12:25.335" endtime="20240516 11:12:25.336"/>
+</return>
+<msg timestamp="20240516 11:12:25.336" level="INFO">${address} = 0xfabb0ac9d68b0b445fb7357272ff202c5651694a</msg>
+<status status="PASS" starttime="20240516 11:12:25.335" endtime="20240516 11:12:25.337"/>
+</kw>
+<kw name="Get Value From Env" library="util">
+<var>${amount}</var>
+<arg>OPERATOR_STAKE_AMOUNT</arg>
+<doc>Get value from .env file.</doc>
+<msg timestamp="20240516 11:12:25.348" level="INFO">${amount} = 50000000000000000000000</msg>
+<status status="PASS" starttime="20240516 11:12:25.337" endtime="20240516 11:12:25.348"/>
+</kw>
+<kw name="Add ARPA" library="node">
+<var>${result}</var>
+<arg>${address}</arg>
+<arg>${amount}</arg>
+<doc>Test Add ARPA</doc>
+<kw name="Get Value From Env" library="util">
+<var>${key}</var>
+<arg>ADMIN_PRIVATE_KEY</arg>
+<doc>Get value from .env file.</doc>
+<msg timestamp="20240516 11:12:25.362" level="INFO">${key} = 0xAC0974BEC39A17E36BA4A6B4D238FF944BACB478CBED5EFCAE784D7BF4F2FF80</msg>
+<status status="PASS" starttime="20240516 11:12:25.349" endtime="20240516 11:12:25.362"/>
+</kw>
+<kw name="Cast Send" library="common">
+<var>${result}</var>
+<arg>${ARPA_CONTRACT_ADDRESS}</arg>
+<arg>"mint(address to, uint256 amount)" ${address} ${amount}</arg>
+<arg>${key}</arg>
+<arg>${EMPTY}</arg>
+<doc>Package Cast Send</doc>
+<kw name="Get Tip" library="common">
+<var>${tip}</var>
+<arg>${rpc_url}</arg>
+<doc>Get current tip</doc>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>0</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:25.364" level="INFO">${tip} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:25.363" endtime="20240516 11:12:25.364"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:25.371" level="INFO">Running command 'cast gas-price 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:25.421" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:25.365" endtime="20240516 11:12:25.421"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:25.422" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:25.421" endtime="20240516 11:12:25.422"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:25.428" level="INFO">Running command 'cast base-fee 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:25.477" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:25.422" endtime="20240516 11:12:25.477"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:25.478" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:25.478" endtime="20240516 11:12:25.479"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:25.480" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:25.479" endtime="20240516 11:12:25.480"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:25.364" endtime="20240516 11:12:25.480"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:25.480" endtime="20240516 11:12:25.480"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:25.481" endtime="20240516 11:12:25.481"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:25.481" endtime="20240516 11:12:25.481"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:25.481" endtime="20240516 11:12:25.481"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:25.481" endtime="20240516 11:12:25.481"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:25.480" endtime="20240516 11:12:25.482"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:25.364" endtime="20240516 11:12:25.482"/>
+</if>
+<return>
+<value>${tip}</value>
+<status status="PASS" starttime="20240516 11:12:25.482" endtime="20240516 11:12:25.482"/>
+</return>
+<msg timestamp="20240516 11:12:25.482" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:25.363" endtime="20240516 11:12:25.482"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${tip}</var>
+<arg>${tip * 6 / 5}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:25.483" level="INFO">${tip} = 1200000000</msg>
+<status status="PASS" starttime="20240516 11:12:25.482" endtime="20240516 11:12:25.483"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:25.490" level="INFO">Running command 'cast send 0x3fdc08D815cc4ED3B7F69Ee246716f2C8bCD6b07 "mint(address to, uint256 amount)" 0xfabb0ac9d68b0b445fb7357272ff202c5651694a 50000000000000000000000 --private-key=0xAC0974BEC39A17E36BA4A6B4D238FF944BACB478CBED5EFCAE784D7BF4F2FF80 --priority-gas-price=1200000000 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:26.277" level="INFO">${result} = 
+blockHash               0x20cf7ffbbf8358b05490ec551c92e72e2ab72c3a82ec4b1bf656137ab18689a4
+blockNumber             143951
+contractAddress         
+cumulativeGasUsed       51184
+effectiveGasPrice     ...</msg>
+<status status="PASS" starttime="20240516 11:12:25.484" endtime="20240516 11:12:26.277"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:25.483" endtime="20240516 11:12:26.277"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --rpc-url=${rpc_url} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:26.278" endtime="20240516 11:12:26.278"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:26.278" endtime="20240516 11:12:26.278"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:25.483" endtime="20240516 11:12:26.278"/>
+</if>
+<kw name="Log" library="BuiltIn">
+<arg>${result}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20240516 11:12:26.279" level="INFO">
+blockHash               0x20cf7ffbbf8358b05490ec551c92e72e2ab72c3a82ec4b1bf656137ab18689a4
+blockNumber             143951
+contractAddress         
+cumulativeGasUsed       51184
+effectiveGasPrice       1200000000
+from                    0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+gasUsed                 51184
+logs                    [{"address":"0x3fdc08d815cc4ed3b7f69ee246716f2c8bcd6b07","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x0000000000000000000000000000000000000000000000000000000000000000","0x000000000000000000000000fabb0ac9d68b0b445fb7357272ff202c5651694a"],"data":"0x000000000000000000000000000000000000000000000a968163f0a57b400000","blockHash":"0x20cf7ffbbf8358b05490ec551c92e72e2ab72c3a82ec4b1bf656137ab18689a4","blockNumber":"0x2324f","transactionHash":"0xfae9df83ee0ad0e35dbbbc2601e8660a42b28a82d7170d415d38f3d8ec1e1ba1","transactionIndex":"0x0","logIndex":"0x0","removed":false}]
+logsBloom               0x00000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000020000000000000000000800000000000000000000000010000000000000000000000000000000000000000100000000000000000000020000000000008000000000000000000000000000000000000000000000000000000000000000002002000000000000000000000000000000000000020000000000000020000000000000000000000000000000000000000000000000000000000000000000
+root                    
+status                  1
+transactionHash         0xfae9df83ee0ad0e35dbbbc2601e8660a42b28a82d7170d415d38f3d8ec1e1ba1
+transactionIndex        0
+type                    2
+to                      0x3fdc08D815cc4ED3B7F69Ee246716f2C8bCD6b07
+depositNonce             null</msg>
+<status status="PASS" starttime="20240516 11:12:26.278" endtime="20240516 11:12:26.279"/>
+</kw>
+<msg timestamp="20240516 11:12:26.279" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:25.362" endtime="20240516 11:12:26.279"/>
+</kw>
+<return>
+<value>${result}</value>
+<status status="PASS" starttime="20240516 11:12:26.280" endtime="20240516 11:12:26.280"/>
+</return>
+<msg timestamp="20240516 11:12:26.280" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:25.348" endtime="20240516 11:12:26.280"/>
+</kw>
+<kw name="Approve ARPA" library="node">
+<var>${result}</var>
+<arg>${node_index}</arg>
+<arg>${amount}</arg>
+<doc>Test Approve</doc>
+<kw name="Get Value From Env" library="util">
+<var>${stake_contract_address}</var>
+<arg>STAKING_ADDRESS</arg>
+<doc>Get value from .env file.</doc>
+<msg timestamp="20240516 11:12:26.293" level="INFO">${stake_contract_address} = 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352</msg>
+<status status="PASS" starttime="20240516 11:12:26.281" endtime="20240516 11:12:26.293"/>
+</kw>
+<kw name="Get Private Key By Index" library="common">
+<var>${key}</var>
+<arg>${node_index}</arg>
+<return>
+<value>${NODE_ACCOUNT_LIST[${node_index} - 1].key}</value>
+<status status="PASS" starttime="20240516 11:12:26.293" endtime="20240516 11:12:26.293"/>
+</return>
+<msg timestamp="20240516 11:12:26.294" level="INFO">${key} = 0xa267530f49f8280200edf313ee7af6b827f2a8bce2897751d06a843f644967b1</msg>
+<status status="PASS" starttime="20240516 11:12:26.293" endtime="20240516 11:12:26.294"/>
+</kw>
+<kw name="Cast Send" library="common">
+<var>${result}</var>
+<arg>${ARPA_CONTRACT_ADDRESS}</arg>
+<arg>"approve(address spender, uint256 amount)" ${stake_contract_address} ${amount}</arg>
+<arg>${key}</arg>
+<arg>${EMPTY}</arg>
+<doc>Package Cast Send</doc>
+<kw name="Get Tip" library="common">
+<var>${tip}</var>
+<arg>${rpc_url}</arg>
+<doc>Get current tip</doc>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>0</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:26.296" level="INFO">${tip} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:26.295" endtime="20240516 11:12:26.296"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:26.304" level="INFO">Running command 'cast gas-price 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:26.349" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:26.297" endtime="20240516 11:12:26.350"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:26.351" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:26.350" endtime="20240516 11:12:26.351"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:26.357" level="INFO">Running command 'cast base-fee 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:26.405" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:26.351" endtime="20240516 11:12:26.405"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:26.406" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:26.405" endtime="20240516 11:12:26.406"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:26.407" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:26.406" endtime="20240516 11:12:26.407"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:26.296" endtime="20240516 11:12:26.408"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:26.408" endtime="20240516 11:12:26.408"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:26.408" endtime="20240516 11:12:26.409"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:26.409" endtime="20240516 11:12:26.409"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:26.409" endtime="20240516 11:12:26.409"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:26.409" endtime="20240516 11:12:26.409"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:26.408" endtime="20240516 11:12:26.409"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:26.296" endtime="20240516 11:12:26.409"/>
+</if>
+<return>
+<value>${tip}</value>
+<status status="PASS" starttime="20240516 11:12:26.409" endtime="20240516 11:12:26.410"/>
+</return>
+<msg timestamp="20240516 11:12:26.410" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:26.295" endtime="20240516 11:12:26.410"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${tip}</var>
+<arg>${tip * 6 / 5}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:26.411" level="INFO">${tip} = 1200000000</msg>
+<status status="PASS" starttime="20240516 11:12:26.410" endtime="20240516 11:12:26.411"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:26.417" level="INFO">Running command 'cast send 0x3fdc08D815cc4ED3B7F69Ee246716f2C8bCD6b07 "approve(address spender, uint256 amount)" 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352 50000000000000000000000 --private-key=0xa267530f49f8280200edf313ee7af6b827f2a8bce2897751d06a843f644967b1 --priority-gas-price=1200000000 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:27.306" level="INFO">${result} = 
+blockHash               0x3180986b59ec870c176f0a434d5d8831f918b2e8dd36350471422bb2630c2394
+blockNumber             143952
+contractAddress         
+cumulativeGasUsed       46307
+effectiveGasPrice     ...</msg>
+<status status="PASS" starttime="20240516 11:12:26.412" endtime="20240516 11:12:27.306"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:26.411" endtime="20240516 11:12:27.306"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --rpc-url=${rpc_url} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:27.307" endtime="20240516 11:12:27.307"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:27.306" endtime="20240516 11:12:27.307"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:26.411" endtime="20240516 11:12:27.307"/>
+</if>
+<kw name="Log" library="BuiltIn">
+<arg>${result}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20240516 11:12:27.308" level="INFO">
+blockHash               0x3180986b59ec870c176f0a434d5d8831f918b2e8dd36350471422bb2630c2394
+blockNumber             143952
+contractAddress         
+cumulativeGasUsed       46307
+effectiveGasPrice       1200000000
+from                    0xFABB0ac9d68B0B445fB7357272Ff202C5651694a
+gasUsed                 46307
+logs                    [{"address":"0x3fdc08d815cc4ed3b7f69ee246716f2c8bcd6b07","topics":["0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925","0x000000000000000000000000fabb0ac9d68b0b445fb7357272ff202c5651694a","0x000000000000000000000000286b8decd5ed79c962b2d8f4346cd97ff0e2c352"],"data":"0x000000000000000000000000000000000000000000000a968163f0a57b400000","blockHash":"0x3180986b59ec870c176f0a434d5d8831f918b2e8dd36350471422bb2630c2394","blockNumber":"0x23250","transactionHash":"0x3532e56f19e0abafc065ddb741a8bbff9e83947e36940047c29d7e16a88da670","transactionIndex":"0x0","logIndex":"0x0","removed":false}]
+logsBloom               0x00000000000000000000000000000000000000000002000000000000800000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000100000000000000000000020000000000028000000000000000000000000000000000000000000000000000000000040000002000000000000000000000000000000000000000020000000000000000000010000000000000000000000000000000000000000000000000000000000000
+root                    
+status                  1
+transactionHash         0x3532e56f19e0abafc065ddb741a8bbff9e83947e36940047c29d7e16a88da670
+transactionIndex        0
+type                    2
+to                      0x3fdc08D815cc4ED3B7F69Ee246716f2C8bCD6b07
+depositNonce             null</msg>
+<status status="PASS" starttime="20240516 11:12:27.307" endtime="20240516 11:12:27.308"/>
+</kw>
+<msg timestamp="20240516 11:12:27.308" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:26.294" endtime="20240516 11:12:27.308"/>
+</kw>
+<return>
+<value>${result}</value>
+<status status="PASS" starttime="20240516 11:12:27.308" endtime="20240516 11:12:27.309"/>
+</return>
+<msg timestamp="20240516 11:12:27.309" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:26.280" endtime="20240516 11:12:27.309"/>
+</kw>
+<kw name="Stake ARPA" library="node">
+<var>${result}</var>
+<arg>${node_index}</arg>
+<arg>${amount}</arg>
+<doc>Test Stake</doc>
+<kw name="Get Private Key By Index" library="common">
+<var>${key}</var>
+<arg>${node_index}</arg>
+<return>
+<value>${NODE_ACCOUNT_LIST[${node_index} - 1].key}</value>
+<status status="PASS" starttime="20240516 11:12:27.310" endtime="20240516 11:12:27.310"/>
+</return>
+<msg timestamp="20240516 11:12:27.310" level="INFO">${key} = 0xa267530f49f8280200edf313ee7af6b827f2a8bce2897751d06a843f644967b1</msg>
+<status status="PASS" starttime="20240516 11:12:27.309" endtime="20240516 11:12:27.311"/>
+</kw>
+<kw name="Get Value From Env" library="util">
+<var>${stake_contract_address}</var>
+<arg>STAKING_ADDRESS</arg>
+<doc>Get value from .env file.</doc>
+<msg timestamp="20240516 11:12:27.323" level="INFO">${stake_contract_address} = 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352</msg>
+<status status="PASS" starttime="20240516 11:12:27.311" endtime="20240516 11:12:27.324"/>
+</kw>
+<kw name="Cast Send" library="common">
+<var>${result}</var>
+<arg>${stake_contract_address}</arg>
+<arg>"stake(uint256 amount)" ${amount}</arg>
+<arg>${key}</arg>
+<arg>${EMPTY}</arg>
+<doc>Package Cast Send</doc>
+<kw name="Get Tip" library="common">
+<var>${tip}</var>
+<arg>${rpc_url}</arg>
+<doc>Get current tip</doc>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>0</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:27.326" level="INFO">${tip} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:27.326" endtime="20240516 11:12:27.327"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:27.339" level="INFO">Running command 'cast gas-price 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:27.393" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:27.328" endtime="20240516 11:12:27.393"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:27.394" level="INFO">${gas_price} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:27.393" endtime="20240516 11:12:27.394"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:27.401" level="INFO">Running command 'cast base-fee 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:27.451" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:27.394" endtime="20240516 11:12:27.451"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:27.453" level="INFO">${base_fee} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:27.452" endtime="20240516 11:12:27.453"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240516 11:12:27.454" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:27.453" endtime="20240516 11:12:27.454"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:27.327" endtime="20240516 11:12:27.454"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${gas_price}</var>
+<arg>cast gas-price --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:27.455" endtime="20240516 11:12:27.455"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${gas_price}</var>
+<arg>${gas_price}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:27.455" endtime="20240516 11:12:27.455"/>
+</kw>
+<kw name="Run" library="OperatingSystem">
+<var>${base_fee}</var>
+<arg>cast base-fee --rpc-url=${rpc_url}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:27.455" endtime="20240516 11:12:27.455"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${base_fee}</var>
+<arg>${base_fee}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:27.456" endtime="20240516 11:12:27.456"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${tip}</var>
+<arg>${gas_price - ${base_fee}}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:27.456" endtime="20240516 11:12:27.456"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:27.454" endtime="20240516 11:12:27.456"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:27.327" endtime="20240516 11:12:27.456"/>
+</if>
+<return>
+<value>${tip}</value>
+<status status="PASS" starttime="20240516 11:12:27.456" endtime="20240516 11:12:27.457"/>
+</return>
+<msg timestamp="20240516 11:12:27.457" level="INFO">${tip} = 1000000000</msg>
+<status status="PASS" starttime="20240516 11:12:27.325" endtime="20240516 11:12:27.457"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${tip}</var>
+<arg>${tip * 6 / 5}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:27.458" level="INFO">${tip} = 1200000000</msg>
+<status status="PASS" starttime="20240516 11:12:27.457" endtime="20240516 11:12:27.458"/>
+</kw>
+<if>
+<branch type="IF" condition="${rpc_url == ''}">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<msg timestamp="20240516 11:12:27.465" level="INFO">Running command 'cast send 0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352 "stake(uint256 amount)" 50000000000000000000000 --private-key=0xa267530f49f8280200edf313ee7af6b827f2a8bce2897751d06a843f644967b1 --priority-gas-price=1200000000 2&gt;&amp;1'.</msg>
+<msg timestamp="20240516 11:12:28.361" level="INFO">${result} = 
+blockHash               0xb98949a08a79fdf7a5869aa7fa1424d5517bf6916cc52ec777cd74f523bb3e10
+blockNumber             143953
+contractAddress         
+cumulativeGasUsed       62720
+effectiveGasPrice     ...</msg>
+<status status="PASS" starttime="20240516 11:12:27.459" endtime="20240516 11:12:28.361"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:27.458" endtime="20240516 11:12:28.361"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run" library="OperatingSystem">
+<var>${result}</var>
+<arg>cast send ${address} ${method} --private-key=${key} --rpc-url=${rpc_url} --priority-gas-price=${tip}</arg>
+<doc>Runs the given command in the system and returns the output.</doc>
+<status status="NOT RUN" starttime="20240516 11:12:28.362" endtime="20240516 11:12:28.362"/>
+</kw>
+<status status="NOT RUN" starttime="20240516 11:12:28.361" endtime="20240516 11:12:28.362"/>
+</branch>
+<status status="PASS" starttime="20240516 11:12:27.458" endtime="20240516 11:12:28.362"/>
+</if>
+<kw name="Log" library="BuiltIn">
+<arg>${result}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20240516 11:12:28.363" level="INFO">
+blockHash               0xb98949a08a79fdf7a5869aa7fa1424d5517bf6916cc52ec777cd74f523bb3e10
+blockNumber             143953
+contractAddress         
+cumulativeGasUsed       62720
+effectiveGasPrice       1200000000
+from                    0xFABB0ac9d68B0B445fB7357272Ff202C5651694a
+gasUsed                 62720
+logs                    [{"address":"0x286b8decd5ed79c962b2d8f4346cd97ff0e2c352","topics":["0x1449c6dd7851abc30abf37f57715f492010519147cc2652fbc38202c18a6ee90"],"data":"0x000000000000000000000000fabb0ac9d68b0b445fb7357272ff202c5651694a000000000000000000000000000000000000000000000a968163f0a57b400000000000000000000000000000000000000000000000000a968163f0a57b400000","blockHash":"0xb98949a08a79fdf7a5869aa7fa1424d5517bf6916cc52ec777cd74f523bb3e10","blockNumber":"0x23251","transactionHash":"0x7908e0f87531bdbe751d2528f06a10f79ec2af3d280675feb73512b49a72aa04","transactionIndex":"0x0","logIndex":"0x0","removed":false},{"address":"0x3fdc08d815cc4ed3b7f69ee246716f2c8bcd6b07","topics":["0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925","0x000000000000000000000000fabb0ac9d68b0b445fb7357272ff202c5651694a","0x000000000000000000000000286b8decd5ed79c962b2d8f4346cd97ff0e2c352"],"data":"0x0000000000000000000000000000000000000000000000000000000000000000","blockHash":"0xb98949a08a79fdf7a5869aa7fa1424d5517bf6916cc52ec777cd74f523bb3e10","blockNumber":"0x23251","transactionHash":"0x7908e0f87531bdbe751d2528f06a10f79ec2af3d280675feb73512b49a72aa04","transactionIndex":"0x0","logIndex":"0x1","removed":false},{"address":"0x3fdc08d815cc4ed3b7f69ee246716f2c8bcd6b07","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x000000000000000000000000fabb0ac9d68b0b445fb7357272ff202c5651694a","0x000000000000000000000000286b8decd5ed79c962b2d8f4346cd97ff0e2c352"],"data":"0x000000000000000000000000000000000000000000000a968163f0a57b400000","blockHash":"0xb98949a08a79fdf7a5869aa7fa1424d5517bf6916cc52ec777cd74f523bb3e10","blockNumber":"0x23251","transactionHash":"0x7908e0f87531bdbe751d2528f06a10f79ec2af3d280675feb73512b49a72aa04","transactionIndex":"0x0","logIndex":"0x2","removed":false}]
+logsBloom               0x00000000000000000000000000000000000000000002000000100000800200000000000000000000000000000000000000000000000000000000000000200000000000000000000000000008000000000000000000002000000000000000000400000000000000000000000000000000000000000000004000000010000000000000100000000000000000000000000100000000000000000000020000000000028000000000000000000000000000000000100000000000000000000000040000002002000000000000000000000000000000000000020000000000000000000010000000000000000000000000000000000000000000000000000000000000
+root                    
+status                  1
+transactionHash         0x7908e0f87531bdbe751d2528f06a10f79ec2af3d280675feb73512b49a72aa04
+transactionIndex        0
+type                    2
+to                      0x286B8DecD5ED79c962b2d8F4346CD97FF0E2C352
+depositNonce             null</msg>
+<status status="PASS" starttime="20240516 11:12:28.362" endtime="20240516 11:12:28.363"/>
+</kw>
+<msg timestamp="20240516 11:12:28.364" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:27.324" endtime="20240516 11:12:28.364"/>
+</kw>
+<return>
+<value>${result}</value>
+<status status="PASS" starttime="20240516 11:12:28.364" endtime="20240516 11:12:28.364"/>
+</return>
+<msg timestamp="20240516 11:12:28.364" level="INFO">${result} = None</msg>
+<status status="PASS" starttime="20240516 11:12:27.309" endtime="20240516 11:12:28.364"/>
+</kw>
+<kw name="Start Node" library="node">
+<var>${proc}</var>
+<arg>${node_index}</arg>
+<doc>Start a node.
+node_idx: index of the node.</doc>
+<msg timestamp="20240516 11:12:28.372" level="INFO">${proc} = &lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:28.365" endtime="20240516 11:12:28.373"/>
+</kw>
+<kw name="Add Process To List" library="node">
+<var>${list}</var>
+<arg>${proc}</arg>
+<arg>${NODE_PROCESS_LIST}</arg>
+<doc>Add a process to the list of processes.
+proc: process of the node.
+node_list: list of processes.</doc>
+<msg timestamp="20240516 11:12:28.374" level="INFO">${list} = [&lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;, &lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;, &lt;Popen: returncode: None args: 'cd ...</msg>
+<status status="PASS" starttime="20240516 11:12:28.373" endtime="20240516 11:12:28.374"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>$NODE_PROCESS_LIST</arg>
+<arg>${list}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20240516 11:12:28.375" level="INFO">${NODE_PROCESS_LIST} = [&lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;, &lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;, &lt;Popen: returncode: None args: 'cd ...</msg>
+<status status="PASS" starttime="20240516 11:12:28.374" endtime="20240516 11:12:28.375"/>
+</kw>
+<return>
+<value>${proc}</value>
+<status status="PASS" starttime="20240516 11:12:28.375" endtime="20240516 11:12:28.375"/>
+</return>
+<msg timestamp="20240516 11:12:28.376" level="INFO">${node3} = &lt;Popen: returncode: None args: 'cd crates/arpa-node;cargo run --bin node-cli...&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:25.335" endtime="20240516 11:12:28.376"/>
+</kw>
+<kw name="All Nodes Have Keyword" library="log">
+<var>${log_phase_1}</var>
+<arg>Waiting for Phase 1 to start</arg>
+<arg>${NODE_PROCESS_LIST}</arg>
+<doc>Check if all nodes have a keyword in their logs
+:param keyword: keyword to look for in the log
+:return: dictionary with the relevant information found for the keyword</doc>
+<msg timestamp="20240516 11:12:33.400" level="INFO">${log_phase_1} = True</msg>
+<status status="PASS" starttime="20240516 11:12:28.376" endtime="20240516 11:12:33.401"/>
+</kw>
+<kw name="Mine Blocks" library="common">
+<arg>9</arg>
+<doc>Mines n number of blocks</doc>
+<kw name="Run Process" library="Process">
+<var>${result}</var>
+<arg>cast</arg>
+<arg>rpc</arg>
+<arg>anvil_mine</arg>
+<arg>${num_blocks}</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<msg timestamp="20240516 11:12:33.402" level="INFO">Starting process:
+cast rpc anvil_mine 9</msg>
+<msg timestamp="20240516 11:12:33.410" level="INFO">Waiting for process to complete.</msg>
+<msg timestamp="20240516 11:12:33.560" level="INFO">Process completed.</msg>
+<msg timestamp="20240516 11:12:33.561" level="INFO">${result} = &lt;result object with rc 0&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:33.401" endtime="20240516 11:12:33.561"/>
+</kw>
+<kw name="Process Completes Successfully" library="common">
+<arg>${result}</arg>
+<doc>The CLI command issued executes and terminates without error</doc>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<arg>${result.rc}</arg>
+<arg>0</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<msg timestamp="20240516 11:12:33.563" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:33.562" endtime="20240516 11:12:33.563"/>
+</kw>
+<kw name="Should Be Empty" library="BuiltIn">
+<arg>${result.stderr}</arg>
+<doc>Verifies that the given item is empty.</doc>
+<msg timestamp="20240516 11:12:33.565" level="INFO">Length is 0</msg>
+<status status="PASS" starttime="20240516 11:12:33.564" endtime="20240516 11:12:33.565"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:33.562" endtime="20240516 11:12:33.565"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:33.401" endtime="20240516 11:12:33.565"/>
+</kw>
+<kw name="All Nodes Have Keyword" library="log">
+<var>${log_phase_2}</var>
+<arg>Waiting for Phase 2 to start</arg>
+<arg>${NODE_PROCESS_LIST}</arg>
+<doc>Check if all nodes have a keyword in their logs
+:param keyword: keyword to look for in the log
+:return: dictionary with the relevant information found for the keyword</doc>
+<msg timestamp="20240516 11:12:35.577" level="INFO">${log_phase_2} = True</msg>
+<status status="PASS" starttime="20240516 11:12:33.565" endtime="20240516 11:12:35.577"/>
+</kw>
+<kw name="Mine Blocks" library="common">
+<arg>9</arg>
+<doc>Mines n number of blocks</doc>
+<kw name="Run Process" library="Process">
+<var>${result}</var>
+<arg>cast</arg>
+<arg>rpc</arg>
+<arg>anvil_mine</arg>
+<arg>${num_blocks}</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<msg timestamp="20240516 11:12:35.578" level="INFO">Starting process:
+cast rpc anvil_mine 9</msg>
+<msg timestamp="20240516 11:12:35.586" level="INFO">Waiting for process to complete.</msg>
+<msg timestamp="20240516 11:12:35.727" level="INFO">Process completed.</msg>
+<msg timestamp="20240516 11:12:35.727" level="INFO">${result} = &lt;result object with rc 0&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:35.578" endtime="20240516 11:12:35.727"/>
+</kw>
+<kw name="Process Completes Successfully" library="common">
+<arg>${result}</arg>
+<doc>The CLI command issued executes and terminates without error</doc>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<arg>${result.rc}</arg>
+<arg>0</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<msg timestamp="20240516 11:12:35.730" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20240516 11:12:35.729" endtime="20240516 11:12:35.730"/>
+</kw>
+<kw name="Should Be Empty" library="BuiltIn">
+<arg>${result.stderr}</arg>
+<doc>Verifies that the given item is empty.</doc>
+<msg timestamp="20240516 11:12:35.730" level="INFO">Length is 0</msg>
+<status status="PASS" starttime="20240516 11:12:35.730" endtime="20240516 11:12:35.730"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:35.728" endtime="20240516 11:12:35.731"/>
+</kw>
+<status status="PASS" starttime="20240516 11:12:35.577" endtime="20240516 11:12:35.731"/>
+</kw>
+<kw name="All Nodes Have Keyword" library="log">
+<var>${log_group}</var>
+<arg>Group index:0 epoch:1 is available</arg>
+<arg>${NODE_PROCESS_LIST}</arg>
+<doc>Check if all nodes have a keyword in their logs
+:param keyword: keyword to look for in the log
+:return: dictionary with the relevant information found for the keyword</doc>
+<msg timestamp="20240516 11:12:40.751" level="INFO">${log_group} = True</msg>
+<status status="PASS" starttime="20240516 11:12:35.731" endtime="20240516 11:12:40.751"/>
+</kw>
+<kw name="Get Group" library="contract">
+<var>${result}</var>
+<arg>0</arg>
+<doc>Get group info by group index</doc>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${index}</var>
+<arg>${index}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:40.753" level="INFO">${index} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:40.752" endtime="20240516 11:12:40.753"/>
+</kw>
+<kw name="Contract Function Call" library="contract">
+<var>${result}</var>
+<arg>${CONTROLLER_CONTRACT}</arg>
+<arg>getGroup</arg>
+<arg>${index}</arg>
+<doc>contract is an instance of a web3 contract
+function_name is a string representing the name of the function to execute
+args is a variable-length argument list representing the parameters for the function
+Get the function object from the contract instance</doc>
+<msg timestamp="20240516 11:12:40.766" level="INFO">${result} = (0, 1, 3, 3, [('0xBcd4042DE499D14e55001CcbB24a551F3b954096', [18169772668823648237903803094384181040650397565342952581502361471883965317719, 65299781934526515857910898926854364727356502636946257362640...</msg>
+<status status="PASS" starttime="20240516 11:12:40.753" endtime="20240516 11:12:40.766"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Group info: ${result}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20240516 11:12:40.767" level="INFO">Group info: (0, 1, 3, 3, [('0xBcd4042DE499D14e55001CcbB24a551F3b954096', [18169772668823648237903803094384181040650397565342952581502361471883965317719, 652997819345265158579108989268543647273565026369462573626405046852420508091, 11252585174880366149474338436675010649851754582453782485987608306334530400681, 16606303000611412054720625825282352554217150759265078720335675810264651964834]), ('0x71bE63f3384f5fb98995898A86B02Fb2426c5788', [21278470606829696809397645514043293021657659517053013009480762481945233819311, 10561879630188105760789112981582832085617163740305485655880592124887954135920, 6082327071302067996227736070030466348554313869608416112926617957863842259011, 148244066968000013962478617391738083336831688203176446229988220965342948351]), ('0xFABB0ac9d68B0B445fB7357272Ff202C5651694a', [15306758416874184914058488463845926279063424583028581126457254258864576579107, 10313958367861705797932915876771376746851368153515866502135794877456040176862, 12303056977724124217129862712693550940640309711566354255613737778470448911801, 11918219141633319617165143110326351929052345888637165799808532200912206666315])], ['0xBcd4042DE499D14e55001CcbB24a551F3b954096', '0xFABB0ac9d68B0B445fB7357272Ff202C5651694a', '0x71bE63f3384f5fb98995898A86B02Fb2426c5788'], [(['0xFABB0ac9d68B0B445fB7357272Ff202C5651694a', '0xBcd4042DE499D14e55001CcbB24a551F3b954096', '0x71bE63f3384f5fb98995898A86B02Fb2426c5788'], (1, [14647100531950411308097205030121787838780282267898669905307548538334928335801, 16510895106425961837845387309164735375933420784193886774922482534881425251677, 16358080750061773694887617600140057635872929866119244968619484497351362850361, 6091095274008191803137555770923318989687448618781747819618708761022471399428], []))], True, [14647100531950411308097205030121787838780282267898669905307548538334928335801, 16510895106425961837845387309164735375933420784193886774922482534881425251677, 16358080750061773694887617600140057635872929866119244968619484497351362850361, 6091095274008191803137555770923318989687448618781747819618708761022471399428])</msg>
+<status status="PASS" starttime="20240516 11:12:40.766" endtime="20240516 11:12:40.767"/>
+</kw>
+<return>
+<value>${result}</value>
+<status status="PASS" starttime="20240516 11:12:40.767" endtime="20240516 11:12:40.767"/>
+</return>
+<msg timestamp="20240516 11:12:40.767" level="INFO">${result} = (0, 1, 3, 3, [('0xBcd4042DE499D14e55001CcbB24a551F3b954096', [18169772668823648237903803094384181040650397565342952581502361471883965317719, 65299781934526515857910898926854364727356502636946257362640...</msg>
+<status status="PASS" starttime="20240516 11:12:40.751" endtime="20240516 11:12:40.767"/>
+</kw>
+<kw name="Group Node Number Should Be" library="contract">
+<arg>0</arg>
+<arg>3</arg>
+<doc>Check group node number</doc>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${index}</var>
+<arg>${index}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:40.768" level="INFO">${index} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:40.768" endtime="20240516 11:12:40.768"/>
+</kw>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${number}</var>
+<arg>${number}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:40.769" level="INFO">${number} = 3</msg>
+<status status="PASS" starttime="20240516 11:12:40.768" endtime="20240516 11:12:40.769"/>
+</kw>
+<kw name="Get Group" library="contract">
+<var>${result}</var>
+<arg>${index}</arg>
+<doc>Get group info by group index</doc>
+<kw name="Convert To Integer" library="BuiltIn">
+<var>${index}</var>
+<arg>${index}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<msg timestamp="20240516 11:12:40.770" level="INFO">${index} = 0</msg>
+<status status="PASS" starttime="20240516 11:12:40.769" endtime="20240516 11:12:40.770"/>
+</kw>
+<kw name="Contract Function Call" library="contract">
+<var>${result}</var>
+<arg>${CONTROLLER_CONTRACT}</arg>
+<arg>getGroup</arg>
+<arg>${index}</arg>
+<doc>contract is an instance of a web3 contract
+function_name is a string representing the name of the function to execute
+args is a variable-length argument list representing the parameters for the function
+Get the function object from the contract instance</doc>
+<msg timestamp="20240516 11:12:40.776" level="INFO">

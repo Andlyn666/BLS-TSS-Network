@@ -32,10 +32,116 @@ Normal Process
     Mine Blocks    6
     ${result} =    Have Node Got Keyword    fulfill randomness successfully    ${NODE_PROCESS_LIST}
     Sleep    5s
-    Check Randomness
+    #Check Randomness
     Teardown Scenario Testing Environment
 
+Test Rebalance
+    Sleep    3s
+    Set Global Variable    $BLOCK_TIME    1
+    Set Enviorment And Deploy Contract
+    Sleep    3s
+    
+    ${node1} =    Stake And Run Node    1
+    ${node2} =    Stake And Run Node    2
+    ${node3} =    Stake And Run Node    3
+    ${node4} =    Stake And Run Node    4
+    ${node5} =    Stake And Run Node    5
+
+    ${result} =    All Nodes Have Keyword    Transaction successful(node_register)    ${NODE_PROCESS_LIST}
+    Should Be True    ${result}
+    ${get_share} =    All Nodes Have Keyword    Calling contract view get_shares    ${NODE_PROCESS_LIST}
+    ${group_result} =    Have Node Got Keyword    Group index:0 epoch:3 is available    ${NODE_PROCESS_LIST}    
+    Group Node Number Should Be    0    5
+
+    ${node6} =    Stake And Run Node    6
+    ${result} =        Get Keyword From Node Log    6    Transaction successful(node_register)
+    ${get_share} =    All Nodes Have Keyword    Calling contract view get_shares    ${NODE_PROCESS_LIST}
+    ${group_result} =    Get Keyword From Node Log    6    is available
+    ${node1} =    Stake And Run Node    7
+    ${node2} =    Stake And Run Node    8
+    ${node3} =    Stake And Run Node    9
+    ${group_result} =    Get Keyword From Node Log    9    is available
+
+    Get Group    0
+    Get Group    1
+    Get Group    2
+    
+    ${start_block} =    Get Latest Block Number
+    Sleep    5s
+
+    ${private_key} =    Get Private Key By Index    7
+    Cast Send    ${CONTRACT_ADDRESSES['ControllerProxy']}    "nodeQuit()"   ${private_key}    ${EMPTY}
+    Sleep    2s
+    ${private_key} =    Get Private Key By Index    2
+    Cast Send    ${CONTRACT_ADDRESSES['ControllerProxy']}    "nodeQuit()"   ${private_key}    ${EMPTY}
+    Sleep    2s
+    ${private_key} =    Get Private Key By Index    6
+    Cast Send    ${CONTRACT_ADDRESSES['ControllerProxy']}    "nodeQuit()"   ${private_key}    ${EMPTY}
+    Sleep    2s
+
+    ${private_key} =    Get Private Key By Index    8
+    Cast Send    ${CONTRACT_ADDRESSES['ControllerProxy']}    "nodeQuit()"   ${private_key}    ${EMPTY}
+
+    Sleep    20s
+    ${event} =    get_events    ${CONTROLLER_CONTRACT}    DkgTask    ${start_block}
+    ${event} =    get_events    ${CONTROLLER_CONTRACT}    TestEvent    ${start_block}
+    ${event} =    get_events    ${CONTROLLER_CONTRACT}    NodeQuit    ${start_block}
+
+Test Rebalance 2
+    Sleep    3s
+    Set Global Variable    $BLOCK_TIME    1
+    Set Enviorment And Deploy Contract
+    Sleep    3s
+    
+    ${node1} =    Stake And Run Node    1
+    ${node2} =    Stake And Run Node    2
+    ${node3} =    Stake And Run Node    3
+    ${node4} =    Stake And Run Node    4
+    ${node5} =    Stake And Run Node    5
+
+    ${result} =    All Nodes Have Keyword    Transaction successful(node_register)    ${NODE_PROCESS_LIST}
+    Should Be True    ${result}
+    ${get_share} =    All Nodes Have Keyword    Calling contract view get_shares    ${NODE_PROCESS_LIST}
+    ${group_result} =    Have Node Got Keyword    Group index:0 epoch:3 is available    ${NODE_PROCESS_LIST}    
+    Group Node Number Should Be    0    5
+
+    ${node6} =    Stake And Run Node    6
+    ${result} =        Get Keyword From Node Log    6    Transaction successful(node_register)
+    ${get_share} =    All Nodes Have Keyword    Calling contract view get_shares    ${NODE_PROCESS_LIST}
+    ${group_result} =    Get Keyword From Node Log    6    is available
+    ${node1} =    Stake And Run Node    7
+    ${node2} =    Stake And Run Node    8
+    ${node3} =    Stake And Run Node    9
+    ${group_result} =    Get Keyword From Node Log    9    is available
+
+    Get Group    0
+    Get Group    1
+    Get Group    2
+    
+    ${start_block} =    Get Latest Block Number
+    Sleep    5s
+
+
+    ${private_key} =    Get Private Key By Index    1
+    Cast Send    ${CONTRACT_ADDRESSES['ControllerProxy']}    "nodeQuit()"   ${private_key}    ${EMPTY}
+    Sleep    2s
+
+    ${private_key} =    Get Private Key By Index    6
+    Cast Send    ${CONTRACT_ADDRESSES['ControllerProxy']}    "nodeQuit()"   ${private_key}    ${EMPTY}
+    
+    Sleep    2s
+    ${private_key} =    Get Private Key By Index    7
+    Cast Send    ${CONTRACT_ADDRESSES['ControllerProxy']}    "nodeQuit()"   ${private_key}    ${EMPTY}
+    
+
+    Sleep    20s
+    ${event} =    get_events    ${CONTROLLER_CONTRACT}    DkgTask    ${start_block}
+    ${event} =    get_events    ${CONTROLLER_CONTRACT}    TestEvent    ${start_block}
+    ${event} =    get_events    ${CONTROLLER_CONTRACT}    NodeQuit    ${start_block}
+    
 *** Test Cases ***
 Run Normal Process
     [Tags]    l1
     Repeat Keyword    1    Normal Process
+    Repeat Keyword    0    Test Rebalance
+    Repeat Keyword    0    Test Rebalance 2

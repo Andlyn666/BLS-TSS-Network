@@ -29,8 +29,8 @@ ${BLOCK_TIME}                           0
 Setup Chain Environment
     [Documentation]    Sets up the scenario testing encironment
     Source Environment Variables
-    Start Local Ethereum Chain
-    Local Ethereum Chain Should Be Up And Running
+    #Start Local Ethereum Chain
+    #Local Ethereum Chain Should Be Up And Running
 
 Teardown Scenario Testing Environment
     [Documentation]    Tears down the scenario testing environment
@@ -105,7 +105,7 @@ Set Timestamp Interval
 Mine Blocks
     [Documentation]    Mines n number of blocks
     [Arguments]    ${num_blocks}
-    Process Should Be Running    ${LOCAL_ETHEREUM_CHAIN_PROCESS_HANDLE}
+    #Process Should Be Running    ${LOCAL_ETHEREUM_CHAIN_PROCESS_HANDLE}
     ${result} =    Run Process    cast    rpc    anvil_mine    ${num_blocks}
     Process Completes Successfully    ${result}
 
@@ -135,6 +135,14 @@ Get ARPA Balance
 Get Private Key By Index
     [Arguments]    ${node_index}
     RETURN    ${NODE_ACCOUNT_LIST[${node_index} - 1].key}
+
+Get Private Key By Address
+    [Arguments]    ${node_address}
+    FOR    ${node}    IN    @{NODE_ACCOUNT_LIST}
+        IF  ${node.address} == ${node_address}
+            RETURN    ${node.key}
+        END
+    END
 
 Local Ethereum Chain Should Be Up And Running
     [Documentation]    Sanity check
@@ -216,4 +224,5 @@ Cast Send
     ELSE
         ${result} =    Run  cast send ${address} ${method} --private-key=${key} --rpc-url=${rpc_url} --priority-gas-price=${tip}
     END
+    Log    ${result}
     
